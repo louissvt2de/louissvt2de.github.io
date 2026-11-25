@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVT Seconde · Révisions</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --ink: #1f2d33;
+    --muted: #56656c;
+    --line: #d9e3ea;
+    --card: #ffffff;
+    --soft: #f3f7fa;
+    --accent: #1f5f8b;
+    --accent-2: #2c7bb0;
+    --ok: #1e8a4c;
+    --ok-bg: #e6f5ec;
+    --ko: #c0392b;
+    --ko-bg: #fbeaea;
+    --mid: #b7791f;
+    --mid-bg: #fdf3e1;
+    --l1: #1f6f8b; --l2: #2b7a5e; --l3: #8a3b3b; --l4: #5b4a8a; --l5: #9a5b12;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2a3f 0%, #183b4a 100%);
+    min-height: 100vh;
+    padding: 12px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  header, .panel {
+    background: var(--card);
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  header { padding: 22px 16px; margin-bottom: 18px; text-align: center; }
+  header h1 { font-size: 1.5em; margin-bottom: 4px; }
+  header .subtitle { color: var(--muted); font-size: .95em; }
+  header .level { color: #8a979c; font-size: .85em; font-style: italic; margin-top: 2px; }
+  .score-display {
+    display: inline-block; margin-top: 14px; padding: 10px 20px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #15425f); color: #fff; font-weight: 700;
+  }
+  .score-display span { display: block; font-size: 1.3em; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 18px; }
+  .tab-btn {
+    border: none; border-radius: 8px; padding: 10px 13px; color: #fff; font-weight: 600;
+    font-size: .82em; cursor: pointer; line-height: 1.2; box-shadow: 0 4px 10px rgba(0,0,0,.2);
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+  }
+  .tab-btn small { display: block; font-weight: 400; opacity: .9; font-size: .9em; }
+  .tab-btn:hover { transform: translateY(-2px); }
+  .tab-btn.active { transform: scale(1.07); box-shadow: 0 8px 22px rgba(0,0,0,.35); outline: 3px solid rgba(255,255,255,.8); }
+  .tab-btn.locked { opacity: .55; }
+  .tab-btn.glossary { background: #44525a; }
+  @media (min-width: 768px) { .tab-btn { padding: 13px 18px; font-size: .92em; } }
+
+  .panel { padding: 20px 15px; display: none; animation: fadeIn .4s ease; }
+  .panel.active { display: block; }
+  @media (min-width: 768px) { .panel { padding: 36px; } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .panel h2 { font-size: 1.35em; padding-bottom: 10px; border-bottom: 3px solid var(--lc, var(--accent)); margin-bottom: 6px; }
+  .panel .question { color: var(--muted); font-style: italic; margin-bottom: 14px; }
+  .lesson-score { display: inline-block; background: var(--soft); border: 1px solid var(--line); border-radius: 20px; padding: 4px 14px; font-weight: 700; color: var(--lc, var(--accent)); margin-bottom: 8px; }
+
+  .section-title {
+    font-size: 1.1em; font-weight: 700; color: var(--lc, var(--accent));
+    margin: 26px 0 14px; padding-bottom: 7px; border-bottom: 2px solid var(--line);
+  }
+
+  .meta-box { background: var(--soft); border: 1px dashed var(--lc, var(--accent)); border-radius: 10px; padding: 14px 12px; }
+  .meta-box p.intro { margin-bottom: 10px; }
+  .obj { padding: 10px 0; border-top: 1px solid var(--line); }
+  .obj:first-of-type { border-top: none; }
+  .obj-text { font-weight: 600; margin-bottom: 7px; }
+  .scale { display: flex; flex-wrap: wrap; gap: 6px; }
+  .scale button, .chip {
+    border: 1px solid #b9c8cd; background: #fff; border-radius: 18px; padding: 6px 11px;
+    font-size: .85em; cursor: pointer; color: var(--ink);
+  }
+  .scale button.on, .chip.on { background: var(--lc, var(--accent)); border-color: var(--lc, var(--accent)); color: #fff; }
+
+  .exercise {
+    background: var(--soft); padding: 15px 12px; margin-bottom: 14px; border-radius: 10px;
+    border-left: 5px solid var(--lc, var(--accent));
+  }
+  @media (min-width: 768px) { .exercise { padding: 20px; } }
+  .ex-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 10px; }
+  .ex-q { font-weight: 700; }
+  .ex-type { font-size: .72em; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); white-space: nowrap; }
+  .ex-help { color: var(--muted); font-size: .88em; margin: -4px 0 10px; }
+  .ex-fig { margin: 0 0 12px; text-align: center; }
+  .ex-fig img { max-width: 100%; max-height: 520px; border-radius: 8px; border: 1px solid var(--line); background: #fff; }
+  .ex-fig figcaption { color: var(--muted); font-size: .78em; margin-top: 4px; }
+
+  .option {
+    display: flex; gap: 10px; align-items: flex-start; background: #fff; border: 2px solid var(--line);
+    border-radius: 8px; padding: 10px; margin-bottom: 8px; cursor: pointer;
+  }
+  .option input { margin-top: 4px; flex-shrink: 0; }
+  .option.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .option.wrong { border-color: var(--ko); background: var(--ko-bg); }
+
+  .tf-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .statement { background: #fff; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; border: 1px solid var(--line); }
+  .pill {
+    border: 2px solid var(--line); background: #fff; border-radius: 8px; padding: 9px 16px;
+    font-weight: 600; cursor: pointer; font-size: .92em; color: var(--ink);
+  }
+  .pill.on { border-color: var(--lc, var(--accent)); background: var(--lc, var(--accent)); color: #fff; }
+  .pill.correct { border-color: var(--ok); background: var(--ok); color: #fff; }
+  .pill.wrong { border-color: var(--ko); background: var(--ko); color: #fff; }
+
+  .fill-text { background: #fff; border-radius: 8px; padding: 12px; border: 1px solid var(--line); line-height: 2.3; }
+  .fill-text input {
+    font: inherit; border: none; border-bottom: 2px solid var(--lc, var(--accent)); background: #f7fbfc;
+    padding: 2px 6px; width: 9.5em; max-width: 100%; border-radius: 4px 4px 0 0;
+  }
+  .fill-text select {
+    font: inherit; border: 1px solid var(--lc, var(--accent)); border-bottom-width: 2px; background: #f7fbfc;
+    padding: 3px 4px; max-width: 100%; border-radius: 6px; color: inherit;
+  }
+  .fill-text select.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .fill-text select.wrong { border-color: var(--ko); background: var(--ko-bg); }
+  .fill-text input.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .fill-text input.wrong { border-color: var(--ko); background: var(--ko-bg); }
+  .fix { color: var(--ok); font-weight: 700; font-size: .9em; margin-left: 3px; }
+
+  .sortable { display: flex; flex-direction: column; gap: 8px; }
+  .drag-card {
+    display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid var(--lc, var(--accent));
+    border-radius: 8px; padding: 4px 4px 4px 0; font-size: .92em; position: relative;
+    user-select: none; -webkit-user-select: none; cursor: grab; transition: box-shadow .15s ease;
+  }
+  .drag-card .grip {
+    touch-action: none; align-self: stretch; display: flex; align-items: center; gap: 6px;
+    padding: 0 8px 0 10px; min-width: 60px; cursor: grab;
+  }
+  .drag-card .dots { font-size: 1.35em; color: #8a979c; }
+  .drag-card .num {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--lc, var(--accent)); color: #fff;
+    font-size: .78em; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .drag-card .t { flex: 1; padding: 6px 0; min-width: 0; }
+  .card-label { display: block; font-weight: 700; font-size: 1.05em; margin-bottom: 4px; }
+  .card-label small { display: block; font-weight: 600; font-size: .82em; color: var(--muted); }
+  .card-img { display: block; width: 100%; max-width: 360px; border-radius: 6px; border: 1px solid var(--line); pointer-events: none; }
+  .statement li .card-img { max-width: 140px; margin: 2px 0 6px; }
+  .drag-card .mv { display: flex; flex-direction: column; gap: 2px; }
+  .drag-card .mv button {
+    border: 1px solid var(--line); background: var(--soft); border-radius: 5px; width: 30px; height: 24px;
+    font-size: .7em; color: var(--muted); cursor: pointer;
+  }
+  .drag-card.dragging { z-index: 5; box-shadow: 0 10px 24px rgba(0,0,0,.25); cursor: grabbing; }
+  .drag-card.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .drag-card.wrong { border-color: var(--ko); background: var(--ko-bg); }
+  .sortable.locked .drag-card { cursor: default; }
+  .sortable.locked .dots, .sortable.locked .mv { display: none; }
+  .sortable.locked .grip { min-width: 0; cursor: default; }
+
+  .sort-item { background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+  .sort-item .txt { margin-bottom: 8px; }
+  .sort-item .bins { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sort-item .pill { padding: 6px 11px; font-size: .84em; }
+  .sort-item.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .sort-item.wrong { border-color: var(--ko); background: var(--ko-bg); }
+
+  .match-row { display: grid; grid-template-columns: 1fr; gap: 6px; background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+  @media (min-width: 700px) { .match-row { grid-template-columns: minmax(150px, 1fr) 2fr; align-items: center; } }
+  .match-row .left { font-weight: 600; }
+  .match-row select { font: inherit; font-size: .9em; padding: 7px; border-radius: 6px; border: 1px solid #b9c8cd; width: 100%; background: #fff; }
+  .match-row.correct { border-color: var(--ok); background: var(--ok-bg); }
+  .match-row.wrong { border-color: var(--ko); background: var(--ko-bg); }
+
+  .check-btn {
+    margin-top: 12px; border: none; border-radius: 8px; padding: 10px 22px; font-weight: 700; cursor: pointer;
+    color: #fff; background: var(--lc, var(--accent)); font-size: .95em;
+  }
+  .check-btn:disabled { opacity: .45; cursor: default; }
+  .feedback { margin-top: 12px; border-radius: 8px; padding: 10px 12px; display: none; font-size: .93em; }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--ok-bg); border-left: 4px solid var(--ok); }
+  .feedback.ko { background: var(--ko-bg); border-left: 4px solid var(--ko); }
+  .feedback.mid { background: var(--mid-bg); border-left: 4px solid var(--mid); }
+  .feedback.warn { background: #eef2f3; border-left: 4px solid #8a979c; }
+  .feedback .verdict { font-weight: 700; margin-bottom: 4px; }
+  .feedback .mistake { margin-top: 6px; font-style: italic; }
+
+  .media-list { display: flex; flex-direction: column; gap: 8px; }
+  .media-item {
+    display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px; text-decoration: none; color: var(--ink);
+  }
+  .media-item:hover { border-color: var(--lc, var(--accent)); }
+  .media-item .ico { font-size: 1.5em; line-height: 1.2; }
+  .media-item .kind { font-size: .72em; text-transform: uppercase; letter-spacing: .5px; color: var(--lc, var(--accent)); font-weight: 700; }
+  .media-item .ttl { font-weight: 700; }
+  .media-item .src, .media-item .nt { color: var(--muted); font-size: .88em; }
+  details.key { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-top: 12px; }
+  details.key summary { cursor: pointer; font-weight: 700; color: var(--lc, var(--accent)); }
+  details.key ul { margin: 10px 0 0 18px; }
+  details.key li { margin-bottom: 6px; }
+
+  .review-card { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: .93em; }
+  .review-card .obj-text { margin-bottom: 4px; }
+  .review-line { color: var(--muted); margin-bottom: 4px; }
+  .tag { display: inline-block; border-radius: 12px; padding: 1px 8px; font-size: .82em; font-weight: 700; }
+  .tag.ok { background: var(--ok-bg); color: var(--ok); }
+  .tag.ko { background: var(--ko-bg); color: var(--ko); }
+  .tag.mid { background: var(--mid-bg); color: var(--mid); }
+  .reset-btn { margin-top: 18px; background: none; border: 1px solid #b9c8cd; color: var(--muted); border-radius: 8px; padding: 7px 14px; cursor: pointer; font-size: .85em; }
+
+  .locked-box { text-align: center; padding: 30px 10px; }
+  .locked-box .big { font-size: 3em; }
+  .locked-box h2 { border: none; }
+
+  .gloss-search { width: 100%; font: inherit; padding: 10px 12px; border: 1px solid #b9c8cd; border-radius: 8px; margin: 6px 0 14px; }
+  table.gloss { width: 100%; border-collapse: collapse; font-size: .9em; margin-bottom: 18px; }
+  table.gloss th, table.gloss td { border-bottom: 1px solid var(--line); padding: 7px 6px; text-align: left; vertical-align: top; }
+  table.gloss td:first-child { font-weight: 700; white-space: nowrap; }
+  table.gloss td:last-child { color: var(--accent); font-style: italic; }
+  .gloss h3 { margin-top: 10px; color: var(--accent); font-size: 1em; }
+
+  /* ---------- home: choose a theme ---------- */
+  .theme-list { display: grid; gap: 14px; }
+  @media (min-width: 700px) { .theme-list { grid-template-columns: 1fr 1fr; } }
+  .theme-card {
+    display: block; text-decoration: none; color: var(--ink); background: var(--card);
+    border-radius: 15px; padding: 22px 18px; box-shadow: 0 10px 40px rgba(0,0,0,.25);
+    border-left: 8px solid var(--accent); transition: transform .2s ease;
+  }
+  a.theme-card:hover { transform: translateY(-3px); }
+  .theme-card .num { text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-size: .85em; font-weight: 700; }
+  .theme-card .ttl { display: block; font-size: 1.3em; font-weight: 700; margin: 4px 0 6px; }
+  .theme-card .go { color: var(--accent); font-weight: 700; }
+  .theme-card.soon { opacity: .6; border-left-color: #8a979c; }
+  .back-link {
+    display: inline-block; margin-bottom: 12px; padding: 8px 14px; border-radius: 8px;
+    background: rgba(255,255,255,.15); color: #fff; text-decoration: none; font-weight: 600;
+  }
+  #view-p1 { display: none; }
+  body.in-p1 #view-home { display: none; }
+  body.in-p1 #view-p1 { display: block; }
+
+  .total-panel { margin-top: 20px; text-align: center; padding: 18px 15px; display: block; }
+  .total-panel .lbl { text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-size: .9em; margin-bottom: 6px; }
+
+  /* ---------- ajouts SVT Seconde ---------- */
+  .fig-row { display: grid; gap: 10px; }
+  @media (min-width: 640px) { .fig-row.two { grid-template-columns: 1fr 1fr; align-items: start; } }
+  .ex-fig .zoom { white-space: nowrap; }
+  .statement table.data { border-collapse: collapse; margin: 8px 0 2px; font-size: .92em; width: 100%; }
+  .statement table.data th, .statement table.data td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+  .statement table.data th { background: var(--soft); }
+  .statement p + p { margin-top: 6px; }
+  .statement ul { margin: 6px 0 0 18px; }
+  .part-box { margin: 22px 0 12px; padding: 12px 14px; border-radius: 10px; background: #fff; border: 2px solid var(--lc, var(--accent)); }
+  .part-box h3 { color: var(--lc, var(--accent)); font-size: 1.05em; margin-bottom: 6px; }
+  .part-box p { font-size: .94em; }
+  .part-box p + p { margin-top: 6px; }
+  .intro-box { background: var(--soft); border-radius: 10px; padding: 10px 12px; font-size: .93em; margin: 0 0 10px; }
+  .write-area { width: 100%; font: inherit; font-size: .95em; border: 1px solid #b9c8cd; border-radius: 8px; padding: 9px 10px; background: #fff; resize: vertical; }
+  .model { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--lc, var(--accent)); border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: .94em; }
+  .model-t { font-weight: 700; color: var(--lc, var(--accent)); margin-bottom: 4px; }
+  .option.crit { font-size: .93em; }
+  .mistake { background: #fff4e5; border-left: 4px solid #d9822b; border-radius: 6px; padding: 7px 10px; font-style: normal !important; }
+  .howto { background: var(--card); border-radius: 15px; padding: 16px; margin-bottom: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.25); font-size: .93em; }
+  .howto h2 { font-size: 1.05em; margin-bottom: 8px; }
+  .howto ul { margin-left: 18px; }
+  .howto li { margin-bottom: 5px; }
+  .howto .warn-cl { margin-top: 10px; padding: 9px 11px; background: #fff4e5; border-radius: 8px; border-left: 4px solid #d9822b; }
+  table.gloss td:last-child { color: var(--ink); font-style: normal; }
+  table.gloss td:first-child { white-space: normal; min-width: 7.5em; color: var(--accent); }
+  .ex-head { flex-direction: column-reverse; align-items: flex-start; gap: 2px; }
+  .ex-type { white-space: normal; }
+
+  details.howto summary { cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="container">
+ <div id="view-home">
+  <header>
+    <h1>🔬 SVT Seconde</h1>
+    <p class="subtitle">Pages de révision : choisis une partie</p>
+    <p class="level">Lycée Paul Robert · M. LOUIS</p>
+  </header>
+  <div class="theme-list">
+    <a class="theme-card" href="#partie1">
+      <span class="num">Partie 1</span>
+      <span class="ttl">🦠 Micro-organismes et santé</span>
+      <span class="go">Ouvrir la révision →</span>
+    </a>
+    <div class="theme-card soon">
+      <span class="num">Partie 2</span>
+      <span class="ttl">🔒 La Terre, la vie et l'organisation du vivant</span>
+      <span>Cette révision ouvrira plus tard dans l'année.</span>
+    </div>
+  </div>
+ </div>
+
+ <div id="view-p1">
+  <a class="back-link" href="#">← Toutes les parties</a>
+  <header>
+    <h1>🦠 Micro-organismes et santé</h1>
+    <p class="subtitle">Partie 1 · Révision des séances 1 à 3</p>
+    <p class="level">SVT Seconde · M. LOUIS</p>
+    <div class="score-display">Points obtenus <span id="total-score">0 / 0</span></div>
+  </header>
+
+  <details class="howto">
+    <summary><strong>Comment utiliser cette page ?</strong> (touche pour lire)</summary>
+    <ul style="margin-top:10px">
+      <li><strong>Après chaque séance</strong> : fais les exercices de l'onglet de la séance (10 à 15 minutes).</li>
+      <li><strong>Chaque semaine</strong> : refais les exercices ratés et l'onglet « Bilan ».</li>
+      <li><strong>Avant le contrôle</strong> : tout l'onglet « Bilan », puis « Transposer », pour t'entraîner sur des exemples nouveaux.</li>
+      <li>Réponds toujours <strong>avant</strong> de regarder la correction : c'est en cherchant que l'on retient.</li>
+    </ul>
+    <p class="warn-cl">⚠️ Cette page ne remplace pas ton classeur. Relis aussi tes séances, leurs documents et leurs bilans, dans un classeur bien rangé.</p>
+    <p class="ex-help" style="margin-top:8px">Tes réponses restent uniquement sur ton téléphone ou ton ordinateur : rien n'est envoyé à personne.</p>
+  </details>
+
+  <nav class="tabs" id="tabs"></nav>
+  <main id="panels"></main>
+
+  <div class="panel total-panel">
+    <div class="lbl">Total des points (tous les onglets)</div>
+    <div class="score-display" style="margin-top:0"><span id="total-score-2">0 / 0</span></div>
+    <div><button class="reset-btn" type="button" id="reset-all">↺ Effacer toutes mes réponses (tous les onglets)</button></div>
+  </div>
+ </div>
+</div>
+
+<script>
+/* ---------- Partie 1 : onglets ---------- */
+const LESSON_META = [
+  { n: 1, label: "Séance 1", short: "Notre microbiote", title: "À la découverte de notre microbiote", q: "Qu'est-ce que le microbiote, comment se met-il en place et qu'est-ce qui le fait évoluer ?" },
+  { n: 2, label: "Séance 2", short: "Rôles du microbiote", title: "Les rôles du microbiote et ses perturbations", q: "Comment le microbiote contribue-t-il au fonctionnement de notre organisme, et que se passe-t-il quand il est perturbé ?" },
+  { n: 3, label: "Séance 3", short: "Paludisme et SIDA", title: "Paludisme et SIDA", q: "Comment le VIH et le parasite du paludisme se transmettent-ils, et comment limiter leur propagation ?" },
+  { n: 4, label: "Bilan", short: "Toute la partie", title: "Bilan de la Partie 1", q: "Le vocabulaire à maîtriser et des réponses courtes à savoir rédiger, sur toute la partie." },
+  { n: 5, label: "Transposer", short: "Nouveaux cas", title: "Transposer à de nouveaux cas", q: "Utiliser ce que tu as appris pour comprendre des maladies et des expériences que tu n'as jamais vues." }
+];
+const LESSONS = {};
+
+/* =====================  SÉANCE 1  ===================== */
+LESSONS[1] = {
+  objectives: [
+    { id: "o1", text: "Je sais dire ce qu'est le microbiote, de quoi il est composé et où il se trouve." },
+    { id: "o2", text: "Je sais expliquer comment le microbiote se met en place au début de la vie." },
+    { id: "o3", text: "Je sais citer et expliquer des facteurs qui modifient le microbiote." }
+  ],
+  exercises: [
+    { type: "fill", obj: "o1", q: "Complète la définition du microbiote.",
+      text: "Le microbiote humain est l'ensemble des [[micro-organismes||cellules humaines;organes;virus pathogènes]] qui vivent [[sur et dans||uniquement dans;uniquement sur;loin de]] le corps humain. Ce sont surtout des [[bactéries||cellules musculaires;parasites;virus]], mais aussi des champignons microscopiques.",
+      why: "On les trouve sur la peau et sur les surfaces respiratoires, sexuelles et digestives (bouche, intestin…)." },
+    { type: "mcq", obj: "o1", q: "Le microbiote compte plus de cellules que notre propre corps, mais il ne pèse que 1 à 2 kg. Comment l'expliquer ?",
+      img: "img/s1_chiffres.jpg", caption: "L'être humain et son microbiote : quelques chiffres. Attention : les estimations récentes donnent environ 30 000 milliards de cellules humaines (et non 3 000) pour 38 000 milliards de bactéries : nous avons donc à peu près autant de bactéries que de cellules, un peu plus.",
+      options: ["Les cellules des micro-organismes (surtout des bactéries) sont beaucoup plus petites que nos cellules", "Le microbiote ne contient pas d'eau", "Les micro-organismes sont des virus, qui ne pèsent rien", "Le document se trompe : le microbiote pèse autant que le corps"], answer: 0,
+      why: "Une bactérie mesure environ 1 à 2 µm, une cellule humaine en général 10 à 30 µm : on peut donc avoir un très grand nombre de bactéries pour une masse faible.",
+      mistake: "comparer des nombres de cellules comme s'il s'agissait de masses. Beaucoup de petites cellules peuvent peser moins que moins de grosses cellules." },
+    { type: "mcq", obj: "o1", q: "Que montre ce document sur la composition du microbiote ?",
+      img: "img/s1_sites.jpg", caption: "La diversité des bactéries du microbiote humain selon la région du corps.",
+      options: ["La composition du microbiote est différente selon la région du corps", "Toutes les régions du corps abritent les mêmes bactéries, dans les mêmes proportions", "Seul l'intestin abrite des bactéries", "Le microbiote du vagin est surtout formé d'Actinobacteria"], answer: 0,
+      why: "Les grands groupes de bactéries sont plus ou moins représentés selon le site : chaque région du corps (peau, bouche, vagin, intestin…) offre des conditions différentes. Dans le vagin, ce sont les Firmicutes (en rouge) qui dominent.",
+      mistake: "lire la légende trop vite. Avant de conclure, associe chaque couleur à son groupe de bactéries." },
+    { type: "tf", obj: "o1", statement: "Deux personnes en bonne santé ont exactement le même microbiote.", answer: false,
+      why: "Faux. Chaque individu possède un microbiote unique : sa composition dépend de sa naissance, de son alimentation, des médicaments pris, de son environnement… On retrouve les mêmes grands groupes de bactéries, mais pas dans les mêmes proportions." },
+    { type: "tf", obj: "o1", statement: "Les micro-organismes de notre microbiote sont des microbes dangereux, qu'il faudrait éliminer.", answer: false,
+      why: "Faux. La très grande majorité ne provoque aucune maladie, et beaucoup nous sont utiles (tu le verras en séance 2)." },
+    { type: "order", obj: "o2", q: "Remets dans l'ordre les étapes de la mise en place du microbiote intestinal d'un bébé.",
+      items: ["À la naissance, le bébé est colonisé par des micro-organismes de sa mère (vagin ou peau, selon le mode d'accouchement).",
+              "Les premières bactéries installées dans l'intestin consomment le dioxygène qui s'y trouve.",
+              "Le dioxygène épuisé, elles sont remplacées peu à peu par des bactéries qui vivent sans dioxygène.",
+              "Pendant les premiers mois, l'alimentation (lait maternel ou non) façonne un microbiote encore très variable.",
+              "À l'âge adulte, en bonne santé, la composition du microbiote varie peu."],
+      why: "Le microbiote est d'abord acquis à la naissance et vient de la mère (vagin, peau, allaitement). Il se construit ensuite pendant les premiers mois de vie." },
+    { type: "mcq", obj: "o2", q: "Un bébé né par césarienne ne passe pas par le vagin de sa mère. Par quoi est-il d'abord colonisé ?",
+      options: ["Surtout par les micro-organismes de la peau de sa mère et de son entourage", "Par les micro-organismes du vagin de sa mère, comme les autres bébés", "Par aucun micro-organisme pendant plusieurs mois", "Uniquement par les micro-organismes du lait"], answer: 0,
+      why: "Selon le mode d'accouchement, le bébé est colonisé au contact du microbiote vaginal ou du microbiote cutané (de la peau) de sa mère.",
+      mistake: "croire qu'un bébé né par césarienne reste sans micro-organismes. Il est colonisé dès la naissance, mais par d'autres micro-organismes." },
+    { type: "mcq", obj: "o3", q: "Que peut-on conclure de cette expérience ?",
+      context: "<p>Des souris sont nourries avec des aliments riches en fibres pendant 6 semaines, puis séparées en deux lots. Pendant 6 nouvelles semaines, le lot n° 1 garde ce régime riche en fibres ; le lot n° 2 reçoit un régime pauvre en fibres. On mesure la diversité du microbiote intestinal.</p>",
+      img: "img/s1_fibres.jpg", caption: "Diversité du microbiote intestinal des deux lots.",
+      options: ["Un régime pauvre en fibres diminue la diversité du microbiote intestinal", "Un régime riche en fibres augmente la diversité du microbiote au cours du temps", "La diversité du microbiote diminue avec l'âge des souris", "Les fibres tuent les bactéries de l'intestin"], answer: 0,
+      why: "Le lot n° 1 sert de témoin : sa diversité reste élevée. Seul le lot n° 2, privé de fibres, voit sa diversité diminuer. La seule différence entre les deux lots étant la quantité de fibres, c'est bien elle qui est en cause.",
+      mistake: "oublier le lot témoin. C'est lui qui montre que ce n'est pas le temps (ou l'âge) qui fait baisser la diversité." },
+    { type: "mcq", obj: "o3", q: "Sur cet antibiogramme de substitution, chaque pastille mime un antibiotique. Quelle pastille correspond à l'antibiotique le plus efficace contre cette souche bactérienne ?",
+      context: "<p>La gélose rouge représente une culture de bactéries. Une zone décolorée autour d'une pastille simule une zone où les bactéries ne se développent pas.</p>",
+      img: "img/s1_antibio.jpg", caption: "Antibiogramme de substitution.",
+      options: ["La pastille 1", "La pastille 2", "La pastille 3", "Les trois se valent"], answer: 0,
+      why: "La pastille 1 a la plus grande zone décolorée. Autour de la pastille 3, rien n'est décoloré : cette substance n'a pas d'effet sur cette souche.",
+      mistake: "regarder la taille de la pastille au lieu de la taille de la zone décolorée autour d'elle." },
+    { type: "tf", obj: "o3", statement: "Un traitement antibiotique ne détruit que les bactéries responsables de la maladie.", answer: false,
+      why: "Faux. Un antibiotique agit aussi sur de nombreuses bactéries de notre microbiote : il le perturbe et diminue sa diversité. C'est une raison de n'utiliser les antibiotiques que lorsqu'ils sont vraiment nécessaires." },
+    { type: "order", obj: "o3", q: "L'utilisation abusive de gels hydroalcooliques peut favoriser des bactéries résistantes. Remets les étapes dans l'ordre.",
+      items: ["Dans une population de bactéries, quelques-unes possèdent déjà, par hasard, un caractère qui les rend résistantes au gel.",
+              "Le gel hydroalcoolique est utilisé de façon répétée et abusive.",
+              "Les bactéries sensibles meurent ; les bactéries résistantes survivent.",
+              "Les bactéries résistantes se multiplient : elles deviennent de plus en plus nombreuses dans la population."],
+      why: "C'est une sélection naturelle : le gel ne crée pas la résistance, il élimine les bactéries sensibles et laisse la place aux résistantes.",
+      mistake: "croire que le gel « rend » les bactéries résistantes. La résistance existait déjà chez quelques bactéries : le gel les sélectionne." },
+    { type: "fill", obj: "o3", q: "Complète le bilan (écris les mots).",
+      text: "Le microbiote change au cours de la vie selon l'[[alimentation|nourriture]], notamment la quantité de [[fibres]] ingérées, et selon la prise répétée d'[[antibiotiques|antibiotique]] ou de gel hydroalcoolique.",
+      why: "Ces facteurs modifient la composition et la diversité du microbiote." }
+  ],
+  keyIdeas: [
+    "Nous hébergeons plus de micro-organismes que de cellules qui nous constituent. Ce sont majoritairement des bactéries, mais aussi des champignons. Situés sur la peau et sur les surfaces respiratoires, sexuelles et digestives, ces micro-organismes constituent le microbiote.",
+    "Chaque individu possède un microbiote qui lui est propre.",
+    "Le microbiote est d'abord acquis à la naissance et provient de la mère (vagin, allaitement, peau).",
+    "Il change au cours de la vie selon l'alimentation (notamment la quantité de fibres ingérées) et l'utilisation répétée d'antibiotiques ou de gel hydroalcoolique."
+  ],
+  glossary: [
+    ["Microbiote", "Ensemble des micro-organismes qui vivent sur et dans le corps humain."],
+    ["Micro-organisme", "Être vivant microscopique (bactérie, champignon microscopique…)."],
+    ["Diversité du microbiote", "Nombre et variété des espèces de micro-organismes qui le composent."],
+    ["Fibre", "Résidu des aliments végétaux non transformé par la digestion."],
+    ["Antibiotique", "Substance qui tue les bactéries ou bloque leur multiplication."],
+    ["Antibiogramme", "Technique de laboratoire qui teste la sensibilité d'une bactérie à un ou plusieurs antibiotiques."],
+    ["Gélose", "Milieu nutritif solide favorisant le développement des micro-organismes."]
+  ]
+};
+
+/* =====================  SÉANCE 2  ===================== */
+LESSONS[2] = {
+  objectives: [
+    { id: "o1", text: "Je sais exploiter une expérience : rôle du témoin, des souris axéniques, du placebo." },
+    { id: "o2", text: "Je sais présenter les rôles du microbiote : nutrition, immunité, protection." },
+    { id: "o3", text: "Je sais expliquer les conséquences d'une perturbation du microbiote et l'intérêt d'agir sur lui." }
+  ],
+  exercises: [
+    { type: "mcq", obj: "o1", q: "Une souris axénique est une souris :",
+      options: ["élevée sans aucun micro-organisme", "malade", "qui a reçu un antibiotique la veille", "obèse"], answer: 0,
+      why: "Comparer des souris axéniques à des souris normales permet de voir ce que change la présence du microbiote." },
+    { type: "mcq", obj: "o2", q: "Regarde les souris élevées par groupes (T, Mi, Ob). Quelle conclusion peut-on tirer ?",
+      figs: [{ src: "img/s2_exp1_protocole.jpg", cap: "Protocole : transfert de microbiote à des souris axéniques." }, { src: "img/s2_exp1_resultats.jpg", cap: "Variation de la masse graisseuse après 10 jours." }],
+      options: ["Les souris ayant reçu le microbiote d'une personne obèse ont pris environ 10 % de masse graisseuse, contre presque 0 % avec le microbiote d'une personne mince", "Toutes les souris ont pris la même masse graisseuse", "Les souris sans microbiote (T) sont celles qui ont le plus grossi", "Le microbiote d'une personne mince fait fortement maigrir les souris"], answer: 0,
+      why: "Les souris ne diffèrent que par le microbiote reçu : la composition du microbiote influence le stockage des graisses.",
+      mistake: "comparer les barres sans regarder le zéro : la barre T est négative (perte de masse graisseuse)." },
+    { type: "mcq", obj: "o2", q: "En coélevage, la souris Ob ne prend plus qu'environ 3 % de masse graisseuse. Quelle est l'explication la plus probable ?",
+      img: "img/s2_exp1_resultats.jpg", caption: "Mêmes résultats : regarde les deux barres de droite.",
+      options: ["En mangeant les excréments de la souris Mi, elle a reçu une partie de son microbiote, qui limite le stockage des graisses", "Elle a cessé de manger", "Son microbiote a complètement disparu", "Le coélevage rend les souris malades"], answer: 0,
+      why: "Les souris mangent une partie des excréments présents dans la cage : des micro-organismes passent ainsi d'une souris à l'autre." },
+    { type: "fill", obj: "o2", q: "Lis le tableau, puis complète.",
+      context: "<table class='data'><tr><th>Groupe de souris (8 à 10 semaines)</th><th>Graisse corporelle</th></tr><tr><td>Souris témoins</td><td>12 %</td></tr><tr><td>Souris axéniques</td><td>8 %</td></tr><tr><td>Souris axéniques + transfert du microbiote de souris témoins</td><td>13 %</td></tr></table>",
+      text: "Les souris axéniques ont [[moins||autant;plus]] de graisse que les témoins. Quand on leur transfère le microbiote de souris témoins, leur pourcentage de graisse [[augmente||diminue;ne change pas]]. La [[présence||absence;couleur]] du microbiote favorise donc le stockage des graisses.",
+      why: "Le transfert de microbiote suffit à rétablir (et même dépasser) le pourcentage de graisse des témoins : c'est bien le microbiote qui est en cause." },
+    { type: "mcq", obj: "o2", q: "Dans les plaques de Peyer, combien de fois plus de lymphocytes les souris normales ont-elles que les souris axéniques ?",
+      img: "img/s2_exp3.jpg", caption: "Cellules immunitaires chez des souris normales et axéniques (en millions).",
+      options: ["Environ 7 fois plus", "Environ 4 fois plus", "Environ 1,3 fois plus", "Autant"], answer: 0,
+      why: "4,7 ÷ 0,7 ≈ 6,7, soit environ 7 fois plus. La présence du microbiote favorise le développement de structures et de cellules du système immunitaire.",
+      mistake: "lire le graphique « nombre de cellules total » au lieu de « nombre de lymphocytes », ou soustraire au lieu de diviser." },
+    { type: "mcq", obj: "o2", q: "Quelle chaîne d'explication relie ces deux résultats ?",
+      context: "<p>Des souris sont infectées par le virus de la grippe. Certaines bactéries du microbiote fermentent les fibres et produisent du butyrate. Les neutrophiles sont des globules blancs de la réaction inflammatoire.</p>",
+      figs: [{ src: "img/s2_exp4a.jpg", cap: "Cellules inflammatoires dans les poumons." }, { src: "img/s2_exp4b.jpg", cap: "Neutrophiles dans les poumons, 5 jours après l'infection." }],
+      options: ["Fibres → des bactéries du microbiote produisent du butyrate → le butyrate limite l'arrivée de cellules inflammatoires dans les poumons", "Les fibres tuent directement le virus de la grippe", "Le butyrate augmente la réaction inflammatoire", "Le butyrate est contenu tel quel dans les aliments riches en fibres"], answer: 0,
+      why: "Avec un régime riche en fibres comme avec du butyrate, il y a moins de cellules inflammatoires : des molécules produites par le microbiote modulent la réaction inflammatoire.",
+      mistake: "croire que ce sont les fibres elles-mêmes qui agissent. Ce sont des molécules produites par des bactéries du microbiote à partir des fibres." },
+    { type: "sort", obj: "o2", q: "Classe chaque résultat selon le rôle du microbiote qu'il montre.",
+      bins: ["Nutrition", "Immunité", "Protection"],
+      items: [["Des souris axéniques stockent moins de graisses que des souris témoins.", 0],
+              ["Certaines bactéries fermentent des fibres que nos enzymes ne digèrent pas.", 0],
+              ["Les plaques de Peyer de souris axéniques contiennent beaucoup moins de lymphocytes.", 1],
+              ["Le butyrate produit par des bactéries limite la réaction inflammatoire.", 1],
+              ["Après un antibiotique, la bactérie C. difficile prolifère dans l'intestin.", 2]],
+      why: "Le microbiote participe à la nutrition, au fonctionnement du système immunitaire et à la protection contre des micro-organismes pathogènes." },
+    { type: "tf", obj: "o2", statement: "La relation entre l'être humain et son microbiote est une symbiose : chacun tire bénéfice de cette association.", answer: true,
+      why: "Vrai. Les micro-organismes trouvent chez nous un milieu de vie et de la nourriture (comme les fibres) ; nous en tirons des bénéfices pour la nutrition, l'immunité et la protection." },
+    { type: "mcq", obj: "o3", q: "Que montre cet essai clinique sur l'infection à Clostridium difficile ?",
+      img: "img/s2_exp5.jpg", caption: "Pourcentage de guérison selon le traitement. TMF : transplantation de microbiote fécal.",
+      options: ["Après l'antibiotique, transférer le microbiote d'un donneur sain guérit beaucoup plus de patients (93,8 % contre 30,8 %)", "L'antibiotique seul est le traitement le plus efficace", "La TMF guérit sans antibiotique", "Les deux traitements donnent le même résultat"], answer: 0,
+      why: "Restaurer un microbiote sain est très efficace contre C. difficile.",
+      mistake: "conclure sur ce qui n'a pas été testé : ici, les deux groupes ont reçu l'antibiotique, on ne peut rien dire d'une TMF seule." },
+    { type: "mcq", obj: "o3", q: "Pourquoi C. difficile peut-il proliférer après certains traitements antibiotiques ?",
+      options: ["L'antibiotique a détruit une partie des bactéries du microbiote, qui occupaient la place et consommaient les ressources : C. difficile n'a plus de concurrents", "L'antibiotique nourrit C. difficile", "L'antibiotique transforme les bactéries du microbiote en C. difficile", "C. difficile est un virus, insensible aux antibiotiques"], answer: 0,
+      why: "Les micro-organismes du microbiote sont en compétition avec les pathogènes (pour la place, pour les nutriments). Un microbiote fortement perturbé protège moins bien.",
+      mistake: "croire que l'antibiotique crée la maladie. Il perturbe le microbiote, ce qui laisse la place à une bactérie qui était déjà là ou qui arrive." },
+    { type: "tf", obj: "o3", statement: "Un micro-organisme habituellement sans danger dans le microbiote peut devenir pathogène si l'équilibre du microbiote est perturbé ou si les défenses de l'organisme sont affaiblies.", answer: true,
+      why: "Vrai. C. difficile peut par exemple être présent sans provoquer de symptômes chez certaines personnes, puis proliférer après un traitement antibiotique." },
+    { type: "mcq", obj: "o1", q: "Dans ces essais cliniques, à quoi sert le groupe qui reçoit un placebo ?",
+      img: "img/s2_exp6.jpg", caption: "Deux essais cliniques visant le microbiote.",
+      options: ["À vérifier que l'amélioration vient bien du traitement testé, et pas d'autres facteurs (guérison spontanée, effet de prendre un comprimé…)", "À soigner les patients plus vite", "À donner une dose plus faible du traitement", "À remplacer le traitement quand il manque"], answer: 0,
+      why: "Le placebo n'a pas de principe actif. Seule la différence entre les deux groupes peut être attribuée au traitement testé." },
+    { type: "mcq", obj: "o3", q: "Pour la maladie de Crohn, il n'y a pas de différence entre la préparation et le placebo. Que peut-on conclure ?",
+      img: "img/s2_exp6.jpg", caption: "Mêmes essais : regarde la partie droite.",
+      options: ["Cette préparation n'a pas montré d'efficacité : agir sur le microbiote n'est pas utile dans toutes les maladies", "Le microbiote est la seule cause de la maladie de Crohn", "Le placebo guérit la maladie de Crohn", "La préparation aggrave la maladie"], answer: 0,
+      why: "Pour la colite ulcéreuse, la préparation fait mieux que le placebo (48 % contre 32 %), mais pas pour la maladie de Crohn.",
+      mistake: "conclure que le microbiote est la cause unique de ces maladies. Ses perturbations peuvent contribuer à leur développement, mais ne sont pas la seule cause." }
+  ],
+  keyIdeas: [
+    "Le microbiote participe à la nutrition et au métabolisme. Il contribue à l'utilisation de certains constituants alimentaires et peut influencer le stockage des graisses.",
+    "Le microbiote contribue au fonctionnement du système immunitaire. Sa présence favorise le développement de certaines structures et cellules immunitaires ; des molécules produites par certaines bactéries, comme le butyrate, peuvent aussi moduler la réaction inflammatoire.",
+    "Le microbiote participe à la protection de l'organisme. Lorsqu'il est fortement perturbé, par exemple après certains traitements antibiotiques, des micro-organismes pathogènes peuvent davantage se développer.",
+    "Les perturbations du microbiote peuvent être associées à certaines maladies et contribuer à leur développement. Le microbiote n'est toutefois pas la cause unique de ces maladies.",
+    "Agir sur le microbiote peut avoir un intérêt thérapeutique dans certaines situations, mais pas dans toutes. La transplantation de microbiote fécal est très efficace dans certains cas d'infection à C. difficile, alors que d'autres interventions donnent des résultats plus variables.",
+    "La relation entre l'organisme et son microbiote est une symbiose : chacun des partenaires peut tirer bénéfice de cette association."
+  ],
+  glossary: [
+    ["Axénique", "Se dit d'un animal élevé sans aucun micro-organisme."],
+    ["Témoin", "Groupe ou lot qui sert de référence, avec lequel on compare le groupe testé."],
+    ["Placebo", "Traitement sans principe actif, donné à un groupe pour comparer avec le traitement testé."],
+    ["Symbiose", "Association durable entre deux êtres vivants, dont chacun tire bénéfice."],
+    ["Réaction inflammatoire", "Réponse de défense rapide qui fait venir des cellules immunitaires dans la zone infectée."],
+    ["Lymphocyte", "Globule blanc du système immunitaire."],
+    ["Transplantation de microbiote fécal (TMF)", "Transfert à un patient du microbiote provenant des selles d'un donneur sain."],
+    ["Compétition", "Situation où des êtres vivants utilisent la même ressource (place, nourriture) : chacun limite le développement des autres."]
+  ]
+};
+
+/* =====================  SÉANCE 3  ===================== */
+LESSONS[3] = {
+  objectives: [
+    { id: "o1", text: "Je sais identifier l'agent pathogène, le réservoir et, s'il y en a un, le vecteur d'une maladie." },
+    { id: "o2", text: "Je sais distinguer une transmission directe d'une transmission vectorielle." },
+    { id: "o3", text: "Je sais relier chaque moyen de prévention ou de lutte à ce qu'il empêche." }
+  ],
+  exercises: [
+    { type: "sort", obj: "o1", q: "Pour chaque information, indique si elle concerne le SIDA, le paludisme ou les deux.",
+      bins: ["SIDA", "Paludisme", "Les deux"],
+      items: [["L'agent pathogène est un virus.", 0],
+              ["L'agent pathogène est un parasite unicellulaire, Plasmodium.", 1],
+              ["Le réservoir du pathogène est l'être humain.", 2],
+              ["Le pathogène se multiplie dans certaines cellules du système immunitaire.", 0],
+              ["Le pathogène se multiplie notamment dans les globules rouges.", 1],
+              ["Une partie du développement du pathogène a lieu chez un autre être vivant que l'humain.", 1],
+              ["Une personne infectée peut ne présenter aucun symptôme pendant longtemps.", 2]],
+      why: "Voir le tableau comparatif de la séance, dans ton classeur." },
+    { type: "mcq", obj: "o2", q: "Dans ce tableau, la ligne « Vecteur » cite le sperme, les sécrétions vaginales ou le sang. Le VIH a-t-il un vecteur biologique ?",
+      img: "img/s3_vih_transmission.jpg", caption: "Les modes de transmission du VIH.",
+      options: ["Non : ce sont des liquides du corps qui contiennent le virus. Aucun être vivant ne transporte le virus d'une personne à l'autre", "Oui : le sang est le vecteur biologique du VIH", "Oui : le moustique transmet le VIH", "Oui : le sperme est un être vivant qui transporte le virus"], answer: 0,
+      why: "Le VIH passe directement d'un être humain à un autre par certains liquides biologiques : c'est une transmission directe.",
+      mistake: "appeler « vecteur » un liquide biologique. Un vecteur biologique est un être vivant (moustique, mouche…) qui prélève le pathogène sur un hôte et le transmet à un autre." },
+    { type: "mcq", obj: "o2", q: "Lequel de ces cas est une transmission directe ?",
+      options: ["Le VIH passe d'une mère à son enfant lors de l'accouchement", "Plasmodium passe d'un humain à un moustique, puis à un autre humain", "Un moustique tigre transmet le virus de la dengue", "Une mouche tsé-tsé transmet le parasite de la maladie du sommeil"], answer: 0,
+      why: "Les trois autres cas font intervenir un vecteur biologique (moustique, mouche) : ce sont des transmissions vectorielles." },
+    { type: "order", obj: "o1", q: "Remets dans l'ordre les étapes de l'infection par le VIH.",
+      img: "img/s3_vih_cycle.jpg", caption: "Le cycle de développement d'un virus.",
+      items: ["Le virus pénètre dans une cellule hôte du système immunitaire.",
+              "La cellule hôte fabrique de nouveau matériel viral.",
+              "De nombreux virus sont libérés et la cellule hôte meurt.",
+              "Pendant des années, sans symptôme, le virus continue de détruire des cellules immunitaires.",
+              "Le système immunitaire s'effondre : des maladies opportunistes apparaissent (stade SIDA)."],
+      why: "Le VIH se multiplie dans les cellules immunitaires et les détruit. Sans traitement, l'affaiblissement progressif du système immunitaire conduit au stade SIDA." },
+    { type: "mcq", obj: "o1", q: "Pourquoi une personne au stade SIDA peut-elle mourir d'une infection habituellement sans gravité ?",
+      options: ["Son système immunitaire, détruit par le VIH, n'élimine plus les micro-organismes responsables de maladies opportunistes", "Le VIH provoque lui-même toutes ces maladies", "Les traitements antiviraux la rendent malade", "Elle n'a plus de microbiote"], answer: 0,
+      why: "Les maladies opportunistes sont dues à des micro-organismes normalement éliminés par le système immunitaire." },
+    { type: "mcq", obj: "o1", q: "Sur ce frottis sanguin, où se trouve le parasite Plasmodium ?",
+      img: "img/s3_palu_agent.jpg", caption: "Frottis sanguin d'une personne atteinte de paludisme.",
+      options: ["À l'intérieur des globules rouges (hématies)", "Dans le noyau des globules rouges", "Dans le liquide entre les cellules", "Dans les globules blancs"], answer: 0,
+      why: "Plasmodium se multiplie dans les globules rouges et les fait éclater : cela provoque les accès de fièvre et l'anémie.",
+      mistake: "parler du noyau des globules rouges : chez l'être humain, les globules rouges n'ont pas de noyau." },
+    { type: "mcq", obj: "o1", q: "Dans le paludisme, quel est le rôle du moustique anophèle femelle ?",
+      options: ["C'est le vecteur biologique : il prélève le parasite en piquant une personne infectée et le transmet à une autre ; une partie du développement du parasite se fait chez lui", "C'est l'agent pathogène du paludisme", "C'est un porteur sain", "Il protège l'être humain contre Plasmodium"], answer: 0,
+      why: "Le vecteur est indispensable au cycle de développement de Plasmodium.",
+      mistake: "confondre le vecteur (le moustique) et l'agent pathogène (le parasite Plasmodium)." },
+    { type: "mcq", obj: "o1", q: "Que montre ce document sur la répartition du paludisme ?",
+      img: "img/s3_palu_carte.jpg", caption: "Répartition mondiale des zones touchées par le paludisme.",
+      options: ["Le paludisme persiste surtout dans les régions tropicales, en particulier en Afrique subsaharienne, qui compte 92 % des cas", "Le paludisme touche autant l'Europe que l'Afrique", "Aucun pays n'a réussi à éliminer le paludisme", "Le paludisme a disparu d'Amérique du Sud"], answer: 0,
+      why: "Les étoiles montrent que plusieurs pays ont récemment éliminé la maladie : la lutte peut réussir." },
+    { type: "tf", obj: "o1", statement: "Le paludisme est endémique en Afrique subsaharienne : il y est présent de façon durable.", answer: true,
+      why: "Vrai. Une maladie endémique est présente durablement dans une région. Une épidémie est une forte augmentation du nombre de cas en peu de temps." },
+    { type: "match", obj: "o3", q: "Associe chaque moyen de prévention ou de lutte à ce qu'il permet.",
+      pairs: [["Préservatif", "Empêche le contact avec les liquides biologiques lors d'un rapport sexuel"],
+              ["Dépistage", "Permet de connaître son statut, d'être soigné et d'éviter de transmettre le virus"],
+              ["PrEP", "Médicament pris avant une exposition possible, pour empêcher l'infection"],
+              ["TPE", "Traitement pris dans les 48 h après une exposition à risque"],
+              ["Moustiquaire imprégnée d'insecticide", "Empêche les piqûres pendant le sommeil et tue les moustiques"],
+              ["Assèchement des eaux stagnantes", "Supprime les lieux où se développent les larves du vecteur"],
+              ["Médicament antipaludique", "Soigne la personne infectée (ou la protège pendant un voyage)"]],
+      why: "La prévention dépend du mode de transmission : contre le VIH, on agit sur les contacts entre personnes ; contre le paludisme, on agit surtout sur le vecteur." },
+    { type: "tf", obj: "o3", statement: "Il existe aujourd'hui un vaccin qui protège totalement contre le paludisme.", answer: false,
+      why: "Faux. Des vaccins existent pour les jeunes enfants des régions touchées, mais ils ne protègent que partiellement : il faut continuer à utiliser moustiquaires, répulsifs, insecticides et traitements." },
+    { type: "write", obj: "o2", q: "Un élève affirme : « Le paludisme et le SIDA se transmettent tous les deux par le sang, donc ils ont le même mode de transmission. » Explique en quelques lignes pourquoi il se trompe.",
+      model: "Le VIH passe directement d'une personne à une autre, par certains liquides biologiques (rapports sexuels, sang, de la mère à l'enfant) : aucun autre être vivant n'intervient, c'est une transmission directe. Le parasite du paludisme, lui, ne passe pas directement d'un humain à un autre : un moustique anophèle femelle le prélève en piquant une personne infectée, le parasite se développe chez lui, puis le moustique le transmet à une autre personne en la piquant. C'est une transmission vectorielle.",
+      criteria: ["J'ai dit que le VIH passe directement d'un humain à un autre, sans autre être vivant (transmission directe).",
+                 "J'ai dit que le paludisme a besoin d'un vecteur biologique : le moustique anophèle femelle.",
+                 "J'ai expliqué que le moustique prélève le parasite chez une personne infectée puis le transmet à une autre en piquant.",
+                 "J'ai utilisé les mots « transmission directe » et « transmission vectorielle »."] }
+  ],
+  keyIdeas: [
+    "Un agent pathogène vit aux dépens d'un hôte. Son réservoir peut être humain ou animal. La propagation d'une maladie infectieuse correspond au passage du pathogène d'un hôte à un autre.",
+    "Transmission directe : le pathogène passe d'un hôte à un autre sans vecteur biologique, par contact entre les hôtes (le VIH par certains liquides biologiques) ou par le milieu (air et aérosols pour la grippe ou la Covid-19, eau pour certaines maladies).",
+    "Un individu infecté peut être porteur sain : il héberge le pathogène sans symptômes, mais peut contribuer à sa propagation. Une diffusion rapide peut conduire à une épidémie, voire à une pandémie.",
+    "Transmission vectorielle : le pathogène est transmis par un vecteur biologique, souvent indispensable à son cycle de développement. Dans le paludisme, l'anophèle femelle transmet le parasite Plasmodium.",
+    "La lutte contre une maladie vectorielle associe protection individuelle et actions collectives contre le vecteur. Le changement climatique peut étendre l'aire de répartition de certains vecteurs.",
+    "<strong>Idée essentielle :</strong> connaître l'agent pathogène, son réservoir et son mode de transmission permet de choisir des mesures de prévention individuelles et collectives adaptées."
+  ],
+  glossary: [
+    ["Agent pathogène", "Agent biologique responsable d'une maladie (virus, bactérie, parasite…)."],
+    ["Hôte", "Organisme qui abrite le pathogène et permet sa multiplication ou sa maturation."],
+    ["Réservoir", "Espèce dans laquelle un agent pathogène se maintient et se multiplie."],
+    ["Vecteur biologique", "Être vivant qui prélève un pathogène sur un hôte et le transmet à un autre."],
+    ["Transmission directe", "Passage du pathogène d'un hôte à un autre sans vecteur biologique (contact, air, eau)."],
+    ["Transmission vectorielle", "Passage du pathogène d'un hôte à un autre par un vecteur biologique."],
+    ["Cycle de développement (cycle évolutif)", "Étapes au cours desquelles un pathogène se développe et se multiplie, parfois chez plusieurs hôtes."],
+    ["Porteur sain", "Individu infecté qui ne présente pas de symptômes."],
+    ["Maladie opportuniste", "Maladie favorisée par un affaiblissement des défenses immunitaires."],
+    ["Séropositif", "Individu chez qui l'on détecte des anticorps dirigés contre un agent pathogène."],
+    ["Endémique", "Se dit d'une maladie présente durablement dans une région ou une population."],
+    ["Épidémie / pandémie", "Forte propagation d'une maladie dans une population / extension à de nombreux pays ou continents."],
+    ["Prophylaxie", "Ensemble des mesures destinées à prévenir l'apparition ou la propagation d'une maladie."],
+    ["Anémie", "Diminution de la quantité d'hémoglobine dans le sang."],
+    ["PrEP / TPE", "Traitements pris avant / après une exposition au VIH pour réduire le risque d'infection."]
+  ]
+};
+
+/* =====================  BILAN  ===================== */
+LESSONS[4] = {
+  keyTitle: "les idées essentielles de la partie",
+  intro: "Ici, on révise <strong>toute la partie</strong>. Les questions « Rédiger » s'entraînent comme au contrôle : écris d'abord ta réponse, puis compare-la à la réponse attendue.",
+  objectives: [
+    { id: "o1", text: "Je connais le vocabulaire de la partie et je sais le définir." },
+    { id: "o2", text: "Je sais rédiger une réponse courte, précise et complète." }
+  ],
+  exercises: [
+    { type: "fill", obj: "o1", q: "Retrouve le mot qui correspond à chaque définition (la première lettre est donnée).",
+      text: "<ol style='margin-left:18px'><li>Agent biologique responsable d'une maladie (a… p…) : [[agent pathogène|un agent pathogène|pathogène]]</li><li>Être vivant qui prélève un pathogène sur un hôte et le transmet à un autre (v… b…) : [[vecteur biologique|un vecteur biologique|vecteur]]</li><li>Espèce dans laquelle un pathogène se maintient et se multiplie (r…) : [[réservoir|un réservoir|le réservoir]]</li><li>Individu infecté qui ne présente pas de symptômes (p… s…) : [[porteur sain|un porteur sain]]</li></ol>",
+      why: "Ces définitions sont à connaître par cœur, mot pour mot ou presque." },
+    { type: "fill", obj: "o1", q: "Même exercice, avec d'autres mots.",
+      text: "<ol style='margin-left:18px'><li>Association durable entre deux êtres vivants dont chacun tire bénéfice (s…) : [[symbiose|une symbiose|la symbiose]]</li><li>Se dit d'un animal élevé sans aucun micro-organisme (a…) : [[axénique]]</li><li>Se dit d'une maladie présente durablement dans une région (e…) : [[endémique]]</li><li>Ensemble des mesures destinées à prévenir une maladie (p…) : [[prophylaxie|la prophylaxie]]</li></ol>",
+      why: "Pense à vérifier l'orthographe : axénique, prophylaxie." },
+    { type: "tf", obj: "o1", statement: "Épidémie et pandémie veulent dire la même chose.", answer: false,
+      why: "Faux. Une épidémie est une forte propagation d'une maladie dans une population. On parle de pandémie quand elle s'étend à de nombreux pays ou continents." },
+    { type: "tf", obj: "o1", statement: "Le réservoir d'un agent pathogène est toujours l'être humain.", answer: false,
+      why: "Faux. Le réservoir peut être humain (VIH, paludisme) ou animal : par exemple, les oiseaux pour le virus West Nile." },
+    { type: "mcq", obj: "o1", q: "Le cycle de développement (ou cycle évolutif) d'un pathogène, c'est :",
+      options: ["l'ensemble des étapes au cours desquelles il se développe et se multiplie, parfois chez plusieurs hôtes successifs", "le trajet du pathogène dans le sang", "la durée de la maladie chez un malade", "le temps que met un médicament à agir"], answer: 0,
+      why: "Le cycle de Plasmodium, par exemple, se déroule en partie chez l'être humain et en partie chez le moustique." },
+    { type: "mcq", obj: "o1", q: "Une personne est séropositive pour le VIH. Cela signifie :",
+      options: ["qu'on détecte dans son sang des anticorps dirigés contre le VIH : elle a été infectée", "qu'elle est au stade SIDA", "qu'elle est protégée contre le VIH", "qu'elle n'a jamais rencontré le VIH"], answer: 0,
+      why: "Être séropositif ne veut pas dire être au stade SIDA. Avec un traitement, une personne séropositive peut vivre longtemps sans atteindre ce stade.",
+      mistake: "confondre « séropositif » (infecté par le VIH) et « malade du SIDA » (stade avancé de l'infection)." },
+    { type: "write", obj: "o2", q: "Un ami pense que tous les microbes de notre corps sont des ennemis à éliminer. En quelques lignes, explique-lui ce qu'est le microbiote et pourquoi on parle de symbiose.",
+      model: "Le microbiote est l'ensemble des micro-organismes (surtout des bactéries, mais aussi des champignons) qui vivent sur et dans notre corps : peau, bouche, intestin, voies respiratoires et génitales. La plupart ne sont pas dangereux. Ils trouvent chez nous un milieu de vie et de la nourriture, et nous en tirons des bénéfices : ils participent à la nutrition (fermentation des fibres, stockage des graisses), au bon fonctionnement du système immunitaire et à la protection contre des pathogènes. Chacun tire bénéfice de l'association : c'est une symbiose.",
+      criteria: ["J'ai défini le microbiote : l'ensemble des micro-organismes (surtout des bactéries) qui vivent sur et dans le corps.",
+                 "J'ai précisé que la plupart ne sont pas dangereux.",
+                 "J'ai donné au moins un rôle précis du microbiote pour nous (nutrition, immunité ou protection).",
+                 "J'ai dit ce que les micro-organismes y gagnent (milieu de vie, nourriture).",
+                 "J'ai conclu avec le mot « symbiose » en expliquant que chacun y gagne."] },
+    { type: "write", obj: "o2", q: "Une personne prend des antibiotiques plusieurs fois dans l'année. Explique quelles conséquences cela peut avoir sur son microbiote et sur sa santé.",
+      model: "Les antibiotiques ne tuent pas seulement les bactéries responsables de la maladie : ils détruisent aussi une partie des bactéries du microbiote. Pris souvent, ils perturbent le microbiote et diminuent sa diversité. Or le microbiote protège l'organisme : ses bactéries occupent la place et utilisent les nutriments, ce qui limite l'installation des pathogènes (compétition). Un microbiote perturbé laisse donc davantage se développer des bactéries pathogènes, comme C. difficile. C'est pourquoi on ne prend des antibiotiques que lorsqu'ils sont vraiment nécessaires.",
+      criteria: ["J'ai dit que les antibiotiques détruisent aussi des bactéries du microbiote.",
+                 "J'ai dit que le microbiote est perturbé et que sa diversité diminue.",
+                 "J'ai expliqué que le microbiote protège contre les pathogènes (compétition pour la place et la nourriture).",
+                 "J'ai donné la conséquence : des pathogènes peuvent se développer davantage (exemple : C. difficile).",
+                 "J'ai conclu sur un usage raisonné des antibiotiques."] },
+    { type: "write", obj: "o2", q: "Explique pourquoi les moustiquaires et l'assèchement des eaux stagnantes limitent la propagation du paludisme, alors que le préservatif n'a aucun effet sur cette maladie.",
+      model: "Le paludisme est une maladie à transmission vectorielle : le parasite Plasmodium passe d'un humain à un autre par la piqûre d'un moustique anophèle femelle. Les moustiquaires empêchent les piqûres pendant le sommeil : le moustique ne peut ni prélever le parasite chez une personne infectée, ni le transmettre. Assécher les eaux stagnantes supprime les lieux où se développent les larves : il y a moins de moustiques vecteurs. Le préservatif empêche les contacts entre liquides biologiques lors des rapports sexuels, ce qui est utile contre une transmission directe comme celle du VIH, mais Plasmodium ne se transmet pas de cette façon.",
+      criteria: ["J'ai rappelé que le paludisme est transmis par un vecteur (moustique anophèle femelle).",
+                 "J'ai expliqué que la moustiquaire empêche les piqûres, donc la transmission du parasite.",
+                 "J'ai expliqué qu'assécher les eaux stagnantes diminue le nombre de moustiques (larves).",
+                 "J'ai expliqué que le préservatif agit contre une transmission directe par voie sexuelle, qui n'est pas celle du paludisme."] }
+  ],
+  keyIdeas: [
+    "Le microbiote est l'ensemble des micro-organismes qui vivent sur et dans le corps. Il est acquis dès la naissance, propre à chaque individu, et évolue selon l'alimentation et les traitements antibiotiques.",
+    "Le microbiote vit en symbiose avec nous : il participe à la nutrition, à l'immunité et à la protection contre les pathogènes. Sa perturbation peut favoriser certaines maladies.",
+    "Un agent pathogène vit aux dépens d'un hôte. Il se transmet directement (contact, liquides biologiques, air, eau) ou par un vecteur biologique.",
+    "Connaître l'agent pathogène, son réservoir et son mode de transmission permet de choisir des mesures de prévention adaptées, individuelles et collectives."
+  ],
+  glossary: []
+};
+
+/* =====================  TRANSPOSER  ===================== */
+LESSONS[5] = {
+  keyTitle: "ce qu'il faut savoir transposer",
+  intro: "Au contrôle, tu rencontreras des exemples que tu n'as pas étudiés. Ici, tu t'entraînes à utiliser tes connaissances sur <strong>quatre cas nouveaux</strong>, avec des données réelles. Pour chaque cas, lis d'abord le texte de présentation.",
+  objectives: [
+    { id: "o1", text: "Je sais analyser une maladie nouvelle : agent pathogène, réservoir, vecteur, étapes de la transmission." },
+    { id: "o2", text: "Je sais exploiter des données pour identifier un mode de transmission et des mesures de prévention adaptées." },
+    { id: "o3", text: "Je sais expliquer, à partir de résultats d'expérience, le rôle protecteur du microbiote." }
+  ],
+  exercises: [
+    { part: "<h3>Cas 1 · Le chikungunya en France</h3><p>Le chikungunya est une maladie due à un <strong>virus</strong>. Il provoque une forte fièvre et des douleurs articulaires, parfois pendant des mois. Le virus est transmis par la piqûre de moustiques du genre <em>Aedes</em>, dont le <strong>moustique tigre</strong> (<em>Aedes albopictus</em>), arrivé en France métropolitaine en 2004. Seule la femelle pique : elle a besoin d'un repas de sang pour produire ses œufs, qu'elle pond dans de petites réserves d'eau stagnante (soucoupes, gouttières, pots…).</p><p>En 2025, une grande épidémie a touché La Réunion. Des voyageurs infectés sont rentrés en métropole, et <strong>809 cas autochtones</strong> (personnes infectées en métropole sans avoir voyagé) ont été recensés : un record.</p>",
+      type: "match", obj: "o1", q: "Associe chaque terme à ce qu'il désigne dans le cas du chikungunya.",
+      pairs: [["Agent pathogène", "Le virus du chikungunya"],
+              ["Vecteur biologique", "La femelle du moustique tigre"],
+              ["Hôte et réservoir (en France)", "L'être humain infecté"],
+              ["Gîte larvaire", "La petite réserve d'eau stagnante où se développent les larves"]],
+      why: "Même raisonnement que pour le paludisme : un pathogène, un vecteur qui pique, un réservoir humain.",
+      mistake: "désigner le moustique comme agent pathogène. Le moustique transporte le virus ; c'est le virus qui provoque la maladie." },
+    { type: "order", obj: "o1", q: "Remets dans l'ordre les étapes qui conduisent à un cas autochtone de chikungunya.",
+      items: ["Une personne est infectée par le virus lors d'un séjour à La Réunion.",
+              "De retour en métropole, elle a le virus dans le sang pendant quelques jours.",
+              "Une femelle de moustique tigre non infectée la pique et prélève du sang contenant le virus.",
+              "Le virus se multiplie dans le moustique et gagne ses glandes salivaires en quelques jours.",
+              "Le moustique pique une autre personne et lui injecte le virus avec sa salive.",
+              "Cette personne tombe malade sans avoir voyagé : c'est un cas autochtone."],
+      why: "Le moustique n'est pas infecté au départ : il acquiert le virus en piquant une personne infectée, puis le transmet lors d'une piqûre suivante." },
+    { type: "mcq", obj: "o2", q: "Que montre ce graphique ?",
+      img: "img/t_moustique_tigre.png", caption: "Données du ministère de la Santé. En pointillés : années sans donnée dans ce graphique.",
+      options: ["Le nombre de départements où le moustique tigre est implanté a fortement augmenté : de 1 en 2004 à 83 en 2026", "Le nombre de malades du chikungunya augmente chaque année", "Le moustique tigre est présent dans tous les départements", "Le nombre de départements colonisés diminue depuis 2020"], answer: 0,
+      why: "83 départements sur 96 en métropole : le vecteur est désormais présent presque partout, y compris en Île-de-France.",
+      mistake: "lire un graphique sans regarder ce qui est en ordonnée. Ici, ce sont des départements où vit le vecteur, pas des malades." },
+    { type: "mcq", obj: "o2", q: "Pourquoi l'extension du moustique tigre augmente-t-elle le risque de cas autochtones ?",
+      options: ["Plus le vecteur est répandu, plus un voyageur infecté risque d'être piqué par un moustique qui transmettra ensuite le virus à d'autres personnes", "Parce que le moustique tigre fabrique le virus", "Parce que le virus passe directement d'une personne à l'autre par l'air", "Parce que tous les moustiques tigres sont infectés"], answer: 0,
+      why: "Sans vecteur, un voyageur malade ne peut pas contaminer son entourage. Des hivers plus doux et des étés plus chauds, liés au changement climatique, favorisent l'installation du moustique tigre plus au nord." },
+    { type: "mcq", obj: "o2", q: "Quand un cas de chikungunya est signalé, on demande aussi au malade de se protéger des piqûres (répulsif, moustiquaire). Pourquoi ?",
+      options: ["Pour éviter que des moustiques prélèvent le virus dans son sang et le transmettent à d'autres personnes", "Pour qu'il guérisse plus vite", "Parce que les piqûres aggravent la maladie", "Pour éviter qu'il soit infecté une deuxième fois"], answer: 0,
+      why: "Le malade est le réservoir du virus : le protéger des piqûres, c'est couper la chaîne de transmission.",
+      mistake: "penser que les mesures ne servent qu'à protéger les personnes saines." },
+    { type: "sort", obj: "o2", q: "Classe chaque mesure : protection individuelle, ou action contre le vecteur ?",
+      bins: ["Protection individuelle", "Action contre le vecteur"],
+      items: [["Mettre du répulsif sur la peau", 0],
+              ["Porter des vêtements longs et couvrants", 0],
+              ["Dormir sous une moustiquaire", 0],
+              ["Vider chaque semaine soucoupes, seaux et pots qui retiennent l'eau", 1],
+              ["Traiter avec un insecticide autour du domicile d'un malade (démoustication)", 1]],
+      why: "Comme pour le paludisme, la lutte associe protection individuelle et actions collectives contre le vecteur." },
+
+    { part: "<h3>Cas 2 · Le choléra à Londres en 1854</h3><p>Le choléra est dû à une <strong>bactérie</strong>, <em>Vibrio cholerae</em>. Il provoque des diarrhées très abondantes et peut tuer en quelques heures par déshydratation. En 1854, on ne sait pas encore que des micro-organismes causent des maladies : beaucoup pensent que le choléra vient d'un « mauvais air ».</p><p>Le médecin <strong>John Snow</strong> remarque que, dans le sud de Londres, deux compagnies distribuent l'eau dans les mêmes rues. La compagnie <strong>Southwark &amp; Vauxhall</strong> puise l'eau dans la Tamise en aval de la ville, là où se déversent les égouts ; la compagnie <strong>Lambeth</strong> la puise en amont, dans une eau plus propre. Il compte les décès dans les maisons desservies par chaque compagnie.</p>",
+      type: "mcq", obj: "o2", q: "Que montre ce graphique ?",
+      img: "img/t_snow.png", caption: "D'après les données publiées par John Snow (1855).",
+      options: ["Les maisons alimentées par Southwark & Vauxhall ont environ 8 fois plus de décès que celles alimentées par Lambeth", "Il y a plus de décès chez Southwark & Vauxhall seulement parce que cette compagnie dessert plus de maisons", "Le reste de Londres est le plus touché", "Les deux compagnies ont autant de décès"], answer: 0,
+      why: "315 ÷ 37 ≈ 8,5. Les décès sont comptés pour 10 000 maisons, ce qui permet de comparer des groupes de tailles différentes.",
+      mistake: "penser que la différence vient du nombre de maisons. Les décès sont ramenés à 10 000 maisons : la comparaison est juste." },
+    { type: "mcq", obj: "o2", q: "Pourquoi la comparaison de John Snow est-elle si convaincante ?",
+      options: ["Les maisons des deux compagnies sont mêlées dans les mêmes rues : même air, mêmes conditions de vie. Seule l'eau change", "Parce que John Snow était médecin", "Parce qu'il a observé la bactérie au microscope", "Parce que les deux compagnies puisaient la même eau"], answer: 0,
+      why: "Comme dans une expérience avec un témoin, un seul facteur diffère entre les deux groupes : l'eau. C'est donc l'eau qui est en cause, et pas l'air." },
+    { type: "mcq", obj: "o2", q: "Quel est le mode de transmission du choléra mis en évidence ?",
+      options: ["Transmission directe par le milieu : la bactérie, rejetée dans les selles des malades, passe dans l'eau puis est avalée par d'autres personnes", "Transmission vectorielle : l'eau est le vecteur du choléra", "Transmission par l'air", "Transmission vectorielle par les moustiques de la Tamise"], answer: 0,
+      why: "Aucun être vivant ne transporte la bactérie d'un humain à un autre : l'eau est le milieu par lequel elle passe.",
+      mistake: "dire que l'eau est un vecteur. Un vecteur biologique est un être vivant ; l'eau est un milieu qui transporte la bactérie : c'est une transmission directe par le milieu." },
+    { type: "sort", obj: "o2", q: "Quelles mesures sont adaptées pour lutter contre le choléra ?",
+      bins: ["Adaptée", "Inutile ici"],
+      items: [["Distribuer une eau potable, traitée", 0],
+              ["Séparer les égouts de l'eau de boisson", 0],
+              ["Se laver les mains au savon", 0],
+              ["Se faire vacciner contre le choléra (il existe un vaccin)", 0],
+              ["Dormir sous une moustiquaire", 1],
+              ["Mettre du répulsif contre les insectes", 1]],
+      why: "La prévention dépend du mode de transmission : contre une maladie transmise par l'eau, on agit sur l'eau et l'hygiène, pas sur des insectes." },
+
+    { part: "<h3>Cas 3 · Une expérience historique sur la protection par le microbiote</h3><p>Dans les années 1950, des chercheurs américains (Bohnhoff et Miller) remarquent que des souris traitées avec un antibiotique, la <strong>streptomycine</strong>, deviennent bien plus faciles à infecter par des <strong>salmonelles</strong>, des bactéries pathogènes de l'intestin. L'expérience a été refaite avec précision en 1985. Les salmonelles utilisées <strong>résistent</strong> à la streptomycine.</p><p>Résultats :</p><ul><li>il faut <strong>100 000 fois moins</strong> de salmonelles pour infecter la moitié des souris traitées que pour infecter la moitié des souris non traitées ;</li><li>après avoir avalé 1 000 salmonelles, <strong>toutes</strong> les souris traitées en rejettent dans leurs excréments, <strong>aucune</strong> souris non traitée.</li></ul>",
+      type: "mcq", obj: "o3", q: "Pourquoi les chercheurs utilisent-ils des salmonelles résistantes à la streptomycine ?",
+      options: ["Pour que l'antibiotique n'agisse pas sur les salmonelles elles-mêmes, mais seulement sur les autres bactéries de l'intestin (le microbiote)", "Pour que les souris guérissent plus vite", "Pour rendre les salmonelles plus dangereuses", "Parce que les salmonelles fabriquent de la streptomycine"], answer: 0,
+      why: "Si l'antibiotique tuait aussi les salmonelles, on ne pourrait pas étudier l'effet de la destruction du microbiote sur l'infection." },
+    { type: "mcq", obj: "o3", q: "Que montre ce graphique ?",
+      img: "img/t_souris.png", caption: "D'après Que et Hentges, 1985.",
+      options: ["Avec la même dose de salmonelles, elles ont envahi l'organisme de toutes les souris traitées et d'aucune souris non traitée", "La streptomycine tue les salmonelles", "Les souris non traitées sont toutes mortes", "La streptomycine protège contre les salmonelles"], answer: 0,
+      why: "La seule différence entre les deux groupes est le traitement antibiotique : en détruisant une partie du microbiote, il a fait perdre aux souris leur protection." },
+    { type: "write", obj: "o3", q: "Explique pourquoi un microbiote intact protège la souris contre les salmonelles.",
+      model: "La streptomycine détruit une grande partie des bactéries du microbiote intestinal, mais pas les salmonelles, qui y résistent. Chez les souris non traitées, le microbiote est intact et les salmonelles ne parviennent pas à s'installer, même à forte dose. Les bactéries du microbiote sont en effet en compétition avec les salmonelles : elles occupent la place et consomment les nutriments, et elles produisent des molécules (des acides comme le butyrate, fabriqués à partir des fibres) qui gênent la multiplication des salmonelles. Le microbiote joue donc un rôle de barrière protectrice, que les antibiotiques peuvent affaiblir.",
+      criteria: ["J'ai dit que la streptomycine détruit une partie des bactéries du microbiote, mais pas les salmonelles.",
+                 "J'ai comparé les deux groupes : microbiote intact = pas d'infection ; microbiote détruit = infection.",
+                 "J'ai expliqué le mécanisme : compétition pour la place et la nourriture (et/ou molécules produites par le microbiote).",
+                 "J'ai conclu que le microbiote a un rôle protecteur, affaibli par les antibiotiques."] },
+    { type: "tf", obj: "o3", statement: "Cette expérience montre qu'il ne faut jamais prendre d'antibiotiques.", answer: false,
+      why: "Faux. Les antibiotiques sont indispensables pour soigner les infections bactériennes. L'expérience montre qu'ils ont aussi un effet sur le microbiote : il faut donc les utiliser seulement quand ils sont nécessaires." },
+
+    { part: "<h3>Cas 4 · Classement express</h3><p>Pour chaque maladie, repère le mode de transmission, puis choisis la prévention adaptée.</p>",
+      type: "sort", obj: "o2", q: "Transmission directe ou vectorielle ?",
+      bins: ["Directe", "Vectorielle"],
+      items: [["Grippe : le virus passe d'une personne à l'autre par les gouttelettes et aérosols émis en toussant ou en parlant.", 0],
+              ["Covid-19 : le virus se transmet par l'air, surtout dans les lieux clos mal aérés.", 0],
+              ["Hépatite B : le virus se transmet par le sang, lors des rapports sexuels et de la mère à l'enfant.", 0],
+              ["Gale : un minuscule acarien passe d'une personne à l'autre lors de contacts peau contre peau prolongés.", 0],
+              ["Fièvre West Nile : le virus circule chez les oiseaux et est transmis à l'être humain par la piqûre de moustiques Culex.", 1],
+              ["Maladie du sommeil : le parasite (trypanosome) est transmis par la piqûre de la mouche tsé-tsé.", 1],
+              ["Dengue : le virus est transmis par la piqûre de moustiques Aedes, dont le moustique tigre.", 1]],
+      why: "Seules les maladies où un être vivant (moustique, mouche) transporte le pathogène sont vectorielles. L'air, le sang ou le contact de la peau ne sont pas des vecteurs.",
+      mistake: "classer la gale en « vectorielle » parce qu'un acarien est en jeu. Ici, l'acarien est l'agent pathogène lui-même, pas un vecteur." },
+    { type: "mcq", obj: "o1", q: "Fièvre West Nile : le virus circule chez les oiseaux ; l'être humain et le cheval peuvent être infectés par une piqûre de moustique, mais ne retransmettent pas le virus aux moustiques. Quel est le réservoir du virus ?",
+      options: ["Les oiseaux", "Les moustiques Culex", "L'être humain", "Le cheval"], answer: 0,
+      why: "Le réservoir est l'espèce où le virus se maintient et se multiplie : ici, les oiseaux. En 2025, des premiers cas humains ont été identifiés en Île-de-France.",
+      mistake: "confondre réservoir et vecteur. Le moustique transporte le virus d'un oiseau à un autre (ou à l'humain) : c'est le vecteur." },
+    { type: "match", obj: "o2", q: "Associe chaque maladie à une prévention adaptée.",
+      pairs: [["Grippe", "Vaccination chaque automne, aération des pièces, masque si l'on tousse"],
+              ["Hépatite B", "Vaccination (dès la petite enfance) et préservatif"],
+              ["Gale", "Éviter les contacts peau contre peau, traiter le malade et son entourage, laver le linge à 60 °C"],
+              ["Maladie du sommeil", "Piéger les mouches tsé-tsé, dépister et soigner les malades"]],
+      why: "Chaque mesure agit sur le mode de transmission de la maladie concernée." },
+    { type: "tf", obj: "o1", statement: "Un agent pathogène est toujours un micro-organisme.", answer: false,
+      why: "Faux. L'acarien de la gale mesure environ 0,3 mm : c'est un agent pathogène, mais pas un micro-organisme. Les agents pathogènes peuvent être des virus, des bactéries ou des eucaryotes (champignons, parasites…)." }
+  ],
+  keyIdeas: [
+    "Face à une maladie inconnue, cherche toujours : l'agent pathogène, son réservoir, s'il y a un vecteur biologique, et les étapes du passage d'un hôte à un autre.",
+    "Un vecteur biologique est toujours un être vivant. L'air, l'eau, le sang ou les liquides biologiques ne sont pas des vecteurs : ils correspondent à une transmission directe.",
+    "La prévention efficace est celle qui bloque une étape de la transmission : contre un vecteur, on agit sur lui et on évite les piqûres ; contre une transmission directe, on agit sur les contacts, l'air ou l'eau, et on vaccine quand c'est possible.",
+    "Pour exploiter une expérience : repère le témoin, la seule différence entre les groupes, et conclus seulement sur ce qui a été testé."
+  ],
+  glossary: [
+    ["Cas autochtone", "Personne infectée sur place, sans avoir voyagé dans une zone où circule la maladie."],
+    ["Gîte larvaire", "Petite réserve d'eau stagnante où se développent les larves de moustiques."],
+    ["Démoustication", "Traitement insecticide autour d'un lieu pour réduire le nombre de moustiques."]
+  ]
+};
+
+</script>
+<script>
+(function () {
+  const STORE_KEY = "svt2-partie1-revision-v1";
+  const CONF = ["Pas encore", "Un peu", "Plutôt oui", "Oui, sans hésiter"];
+
+  /* ---------- storage (optional: the page works without it) ---------- */
+  let state = { ex: {}, before: {}, after: {}, plan: {}, tab: null };
+  try { const raw = localStorage.getItem(STORE_KEY); if (raw) state = Object.assign(state, JSON.parse(raw)); } catch (e) {}
+  function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {} }
+
+  /* ---------- helpers ---------- */
+  function el(tag, attrs, html) {
+    const e = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      if (k === "class") e.className = attrs[k];
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function shuffle(a) {
+    const b = a.slice();
+    for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; }
+    return b;
+  }
+  function shuffledIdx(n) {
+    let idx = shuffle([...Array(n).keys()]);
+    if (n > 2 && idx.every((v, i) => v === i)) idx = idx.reverse();
+    return idx;
+  }
+  function norm(s) {
+    return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[’‘`]/g, "'")
+      .replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim();
+  }
+  function lev(a, b) {
+    const m = a.length, n = b.length, d = [];
+    for (let i = 0; i <= m; i++) { d[i] = [i]; }
+    for (let j = 0; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
+  /* returns 2 = exact, 1 = accepted with a spelling slip, 0 = wrong */
+  function matchWord(given, accepted) {
+    const g = norm(given);
+    if (!g) return 0;
+    for (const a of accepted) if (norm(a) === g) return 2;
+    for (const a of accepted) { const na = norm(a); if (na.length >= 5 && lev(na, g) <= 1) return 1; }
+    return 0;
+  }
+  /* saved answers are keyed by the question's content, so editing or removing a question never mixes answers up */
+  function exKey(n, ex) {
+    const s = JSON.stringify(ex); let h = 5381;
+    for (let k = 0; k < s.length; k++) h = ((h * 33) ^ s.charCodeAt(k)) >>> 0;
+    return n + "-" + h.toString(36);
+  }
+  const fmt = x => (Math.round(x * 10) / 10).toString();
+  const TYPE_LABEL = { mcq: "QCM", tf: "Vrai ou faux", fill: "Compléter", order: "Remettre dans l'ordre", sort: "Trier", match: "Associer", write: "Rédiger et s'auto-corriger" };
+
+  /* ---------- exercise renderers: each returns { getResp, setResp, grade, show, lock } ---------- */
+  const R = {};
+
+  R.mcq = function (ex, body, key) {
+    const order = shuffledIdx(ex.options.length);
+    const labels = [];
+    order.forEach(i => {
+      const lab = el("label", { class: "option" });
+      const inp = el("input", { type: "radio", name: key, value: i });
+      lab.appendChild(inp); lab.appendChild(el("span", null, ex.options[i]));
+      body.appendChild(lab); labels[i] = { lab, inp };
+    });
+    return {
+      getResp: () => { const c = labels.findIndex(x => x && x.inp.checked); return c < 0 ? null : c; },
+      setResp: r => { if (labels[r]) labels[r].inp.checked = true; },
+      grade: r => ({ pts: r === ex.answer ? 1 : 0 }),
+      show: r => { labels[ex.answer].lab.classList.add("correct"); if (r !== ex.answer && labels[r]) labels[r].lab.classList.add("wrong"); },
+      lock: () => labels.forEach(x => x.inp.disabled = true)
+    };
+  };
+
+  R.tf = function (ex, body) {
+    body.appendChild(el("div", { class: "statement" }, ex.statement));
+    const row = el("div", { class: "tf-row" });
+    let choice = null;
+    const btns = [true, false].map(v => {
+      const b = el("button", { class: "pill", type: "button" }, v ? "Vrai" : "Faux");
+      b.addEventListener("click", () => { if (b.disabled) return; choice = v; btns.forEach(x => x.classList.toggle("on", x === b)); });
+      row.appendChild(b); return b;
+    });
+    body.appendChild(row);
+    return {
+      getResp: () => choice,
+      setResp: r => { choice = r; btns.forEach((b, i) => b.classList.toggle("on", (i === 0) === r)); },
+      grade: r => ({ pts: r === ex.answer ? 1 : 0 }),
+      show: r => btns.forEach((b, i) => {
+        const v = i === 0; b.classList.remove("on");
+        if (v === ex.answer) b.classList.add("correct"); else if (v === r) b.classList.add("wrong");
+      }),
+      lock: () => btns.forEach(b => b.disabled = true)
+    };
+  };
+
+  R.fill = function (ex, body) {
+    const box = el("div", { class: "fill-text" });
+    const answers = [];
+    /* [[answer|alt]] = typed gap; [[answer||decoy1;decoy2]] = drop-down menu */
+    box.innerHTML = ex.text.replace(/\[\[(.+?)\]\]/g, (m, inner) => {
+      const [alts, decoys] = inner.split("||");
+      answers.push(alts.split("|"));
+      const i = answers.length - 1;
+      if (decoys == null) return '<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-i="' + i + '">';
+      const opts = [answers[i][0], ...decoys.split(";")].sort((x, y) => x.localeCompare(y));
+      return '<select data-i="' + i + '"><option value="">…</option>' + opts.map(o => '<option>' + o + '</option>').join("") + '</select>';
+    });
+    body.appendChild(box);
+    const inputs = [...box.querySelectorAll("input, select")];
+    return {
+      getResp: () => { const v = inputs.map(i => i.value.trim()); return v.some(x => !x) ? null : v; },
+      setResp: r => inputs.forEach((inp, i) => inp.value = r[i] || ""),
+      grade: r => {
+        const res = r.map((v, i) => matchWord(v, answers[i]));
+        return { pts: res.filter(x => x > 0).length / res.length, res };
+      },
+      show: (r, g) => inputs.forEach((inp, i) => {
+        const ok = g.res[i] > 0;
+        inp.classList.add(ok ? "correct" : "wrong");
+        if (!ok || g.res[i] === 1) inp.insertAdjacentHTML("afterend", '<span class="fix">→ ' + answers[i][0] + "</span>");
+      }),
+      lock: () => inputs.forEach(i => i.disabled = true),
+      note: g => g.res.includes(1) ? "Accepté, mais vérifie l'orthographe." : ""
+    };
+  };
+
+  R.order = function (ex, body) {
+    body.appendChild(el("p", { class: "ex-help" }, "Fais glisser les cartes pour les mettre dans le bon ordre, du n° 1 en haut au dernier en bas. Sur téléphone, attrape-les par le ⠿ et le numéro, ou utilise les flèches ▲ ▼."));
+    const n = ex.items.length;
+    const list = el("div", { class: "sortable" });
+    let order = shuffledIdx(n), locked = false;
+    const cards = ex.items.map((t, i) => {
+      const c = el("div", { class: "drag-card" },
+        "<span class='grip'><span class='dots' aria-hidden='true'>⠿</span><span class='num'></span></span><span class='t'>" + t + "</span>" +
+        "<span class='mv'><button type='button' aria-label='Monter'>▲</button><button type='button' aria-label='Descendre'>▼</button></span>");
+      const [up, down] = c.querySelectorAll(".mv button");
+      up.addEventListener("click", () => move(i, -1));
+      down.addEventListener("click", () => move(i, 1));
+      c.addEventListener("pointerdown", e => startDrag(e, i));
+      return c;
+    });
+    body.appendChild(list);
+
+    function render() {
+      order.forEach((i, k) => { list.appendChild(cards[i]); cards[i].querySelector(".num").textContent = k + 1; });
+    }
+    function renumber() { order.forEach((i, k) => cards[i].querySelector(".num").textContent = k + 1); }
+    function move(i, d) {
+      if (locked) return;
+      const k = order.indexOf(i), j = k + d;
+      if (j < 0 || j >= n) return;
+      [order[k], order[j]] = [order[j], order[k]]; render();
+    }
+    /* drag: the card follows the pointer; neighbours swap when it passes their middle */
+    function startDrag(e, i) {
+      if (locked || e.button > 0 || e.target.closest(".mv")) return;
+      if (e.pointerType !== "mouse" && !e.target.closest(".grip")) return;
+      e.preventDefault();
+      const card = cards[i];
+      const offset = e.clientY - card.getBoundingClientRect().top;
+      card.classList.add("dragging");
+      try { card.setPointerCapture(e.pointerId); } catch (err) {}
+      function onMove(ev) {
+        if (ev.clientY < 70) window.scrollBy(0, -10);
+        else if (ev.clientY > window.innerHeight - 70) window.scrollBy(0, 10);
+        const y = ev.clientY;
+        const mid = j => { const r = cards[j].getBoundingClientRect(); return r.top + r.height / 2; };
+        for (let k = order.indexOf(i); k > 0 && y < mid(order[k - 1]); k--) {
+          const prev = order[k - 1]; list.insertBefore(cards[prev], card.nextSibling); [order[k - 1], order[k]] = [i, prev];
+        }
+        for (let k = order.indexOf(i); k < n - 1 && y > mid(order[k + 1]); k++) {
+          const next = order[k + 1]; list.insertBefore(cards[next], card); [order[k], order[k + 1]] = [next, i];
+        }
+        renumber();
+        card.style.transform = "none";
+        const natural = card.getBoundingClientRect().top;
+        card.style.transform = "translateY(" + (y - offset - natural) + "px)";
+      }
+      function onUp() {
+        card.classList.remove("dragging"); card.style.transform = "";
+        card.removeEventListener("pointermove", onMove);
+        card.removeEventListener("pointerup", onUp);
+        card.removeEventListener("pointercancel", onUp);
+      }
+      card.addEventListener("pointermove", onMove);
+      card.addEventListener("pointerup", onUp);
+      card.addEventListener("pointercancel", onUp);
+    }
+    render();
+    return {
+      getResp: () => order.slice(),
+      setResp: r => { order = r.slice(); render(); },
+      grade: r => { const ok = r.map((v, k) => v === k); return { pts: ok.filter(Boolean).length / n, ok }; },
+      show: (r, g) => {
+        order.forEach((i, k) => cards[i].classList.add(g.ok[k] ? "correct" : "wrong"));
+        if (g.ok.includes(false)) {
+          body.appendChild(el("div", { class: "statement", style: "margin-top:10px" },
+            "<strong>Ordre attendu :</strong><ol style='margin:6px 0 0 20px'>" + ex.items.map(t => "<li>" + t + "</li>").join("") + "</ol>"));
+        }
+      },
+      lock: () => { locked = true; list.classList.add("locked"); }
+    };
+  };
+
+  R.sort = function (ex, body) {
+    const order = shuffledIdx(ex.items.length);
+    const choice = Array(ex.items.length).fill(null);
+    const rows = [];
+    order.forEach(i => {
+      const row = el("div", { class: "sort-item" });
+      row.appendChild(el("div", { class: "txt" }, ex.items[i][0]));
+      const bins = el("div", { class: "bins" });
+      const btns = ex.bins.map((b, bi) => {
+        const btn = el("button", { class: "pill", type: "button" }, b);
+        btn.addEventListener("click", () => { if (btn.disabled) return; choice[i] = bi; btns.forEach(x => x.classList.toggle("on", x === btn)); });
+        bins.appendChild(btn); return btn;
+      });
+      row.appendChild(bins); body.appendChild(row);
+      rows[i] = { row, btns };
+    });
+    return {
+      getResp: () => choice.includes(null) ? null : choice.slice(),
+      setResp: r => r.forEach((bi, i) => { choice[i] = bi; rows[i].btns.forEach((b, k) => b.classList.toggle("on", k === bi)); }),
+      grade: r => { const ok = r.map((bi, i) => bi === ex.items[i][1]); return { pts: ok.filter(Boolean).length / ok.length, ok }; },
+      show: (r, g) => rows.forEach((x, i) => {
+        x.row.classList.add(g.ok[i] ? "correct" : "wrong");
+        x.btns.forEach((b, k) => { b.classList.remove("on"); if (k === ex.items[i][1]) b.classList.add("correct"); else if (k === r[i]) b.classList.add("wrong"); });
+      }),
+      lock: () => rows.forEach(x => x.btns.forEach(b => b.disabled = true))
+    };
+  };
+
+  R.match = function (ex, body) {
+    const rightOrder = shuffledIdx(ex.pairs.length);
+    const rows = [];
+    ex.pairs.forEach((pair, i) => {
+      const row = el("div", { class: "match-row" });
+      row.appendChild(el("div", { class: "left" }, ex.pairs[i][0]));
+      const sel = el("select");
+      sel.appendChild(el("option", { value: "" }, "Choisir…"));
+      rightOrder.forEach(j => sel.appendChild(el("option", { value: j }, ex.pairs[j][1])));
+      row.appendChild(sel); body.appendChild(row);
+      rows[i] = { row, sel };
+    });
+    return {
+      getResp: () => { const v = rows.map(x => x.sel.value); return v.includes("") ? null : v.map(Number); },
+      setResp: r => r.forEach((j, i) => rows[i].sel.value = j),
+      grade: r => { const ok = r.map((j, i) => j === i); return { pts: ok.filter(Boolean).length / ok.length, ok }; },
+      show: (r, g) => rows.forEach((x, i) => {
+        x.row.classList.add(g.ok[i] ? "correct" : "wrong");
+        if (!g.ok[i]) x.row.appendChild(el("div", { class: "fix", style: "grid-column:1/-1" }, "→ " + ex.pairs[i][1]));
+      }),
+      lock: () => rows.forEach(x => x.sel.disabled = true)
+    };
+  };
+
+
+  /* rédaction auto-corrigée : l'élève écrit, affiche la réponse attendue, puis coche ce qu'il a bien mis */
+  R.write = function (ex, body) {
+    body.appendChild(el("p", { class: "ex-help" }, "Écris ta réponse sur ton brouillon (ou ici, si tu préfères), <strong>avant</strong> de regarder la réponse attendue."));
+    const ta = el("textarea", { class: "write-area", rows: "5", placeholder: "Ma réponse (facultatif)" });
+    body.appendChild(ta);
+    const showBtn = el("button", { class: "reset-btn", type: "button", style: "margin-top:8px" }, "👀 J'ai fini : voir la réponse attendue");
+    body.appendChild(showBtn);
+    const zone = el("div", { class: "write-zone", style: "display:none" });
+    zone.appendChild(el("div", { class: "model" }, "<div class='model-t'>Exemple de réponse attendue</div>" + ex.model));
+    zone.appendChild(el("p", { class: "obj-text", style: "margin:12px 0 6px" }, "Coche chaque élément présent dans TA réponse (sois honnête : c'est pour toi) :"));
+    const boxes = ex.criteria.map(c => {
+      const lab = el("label", { class: "option crit" });
+      const inp = el("input", { type: "checkbox" });
+      lab.appendChild(inp); lab.appendChild(el("span", null, c));
+      zone.appendChild(lab); return { lab, inp };
+    });
+    body.appendChild(zone);
+    let shown = false;
+    function reveal() { shown = true; zone.style.display = "block"; showBtn.style.display = "none"; }
+    showBtn.addEventListener("click", reveal);
+    return {
+      warn: "Commence par écrire ta réponse, puis clique sur « voir la réponse attendue ».",
+      btnLabel: "Valider mon auto-correction",
+      getResp: () => shown ? { t: ta.value, k: boxes.map(b => b.inp.checked) } : null,
+      setResp: r => { ta.value = r.t || ""; reveal(); boxes.forEach((b, i) => b.inp.checked = !!r.k[i]); },
+      grade: r => { const ok = r.k; return { pts: ok.filter(Boolean).length / ok.length, ok }; },
+      show: (r, g) => boxes.forEach((b, i) => b.lab.classList.add(g.ok[i] ? "correct" : "wrong")),
+      lock: () => { ta.disabled = true; boxes.forEach(b => b.inp.disabled = true); }
+    };
+  };
+
+  /* ---------- scores ---------- */
+  function lessonScore(n) {
+    const L = LESSONS[n]; let pts = 0;
+    L.exercises.forEach(ex => { const s = state.ex[exKey(n, ex)]; if (s) pts += s.pts; });
+    return { pts, max: L.exercises.length, done: L.exercises.filter(ex => state.ex[exKey(n, ex)]).length };
+  }
+  function updateScores() {
+    let pts = 0, max = 0;
+    Object.keys(LESSONS).forEach(n => {
+      const s = lessonScore(n); pts += s.pts; max += s.max;
+      const tag = document.getElementById("ls-" + n);
+      if (tag) tag.textContent = "Exercices faits : " + s.done + " / " + s.max + "  ·  Points : " + fmt(s.pts) + " / " + s.max;
+    });
+    document.getElementById("total-score").textContent = fmt(pts) + " / " + max;
+    document.getElementById("total-score-2").textContent = fmt(pts) + " / " + max;
+  }
+
+  /* ---------- métacognition ---------- */
+  function ratingBlock(n, which) {
+    const L = LESSONS[n]; const box = el("div");
+    L.objectives.forEach(o => {
+      const row = el("div", { class: "obj" });
+      row.appendChild(el("div", { class: "obj-text" }, o.text));
+      const scale = el("div", { class: "scale" });
+      const store = state[which][n] = state[which][n] || {};
+      CONF.forEach((label, k) => {
+        const b = el("button", { type: "button", class: store[o.id] === k + 1 ? "on" : "" }, label);
+        b.addEventListener("click", () => {
+          store[o.id] = k + 1; save();
+          [...scale.children].forEach(x => x.classList.toggle("on", x === b));
+        });
+        scale.appendChild(b);
+      });
+      row.appendChild(scale); box.appendChild(row);
+    });
+    return box;
+  }
+
+  function reviewTable(n) {
+    const L = LESSONS[n];
+    const before = state.before[n] || {};
+    const s = lessonScore(n);
+    let html = "";
+    if (s.done < s.max) html += "<p class='ex-help' style='margin-top:10px'>Tu as fait " + s.done + " exercices sur " + s.max + ". Ton bilan sera plus juste quand tout sera fait.</p>";
+    L.objectives.forEach(o => {
+      let p = 0, m = 0;
+      L.exercises.forEach(ex => { if (ex.obj !== o.id) return; const st = state.ex[exKey(n, ex)]; if (st) { p += st.pts; m += 1; } });
+      const pct = m ? Math.round(100 * p / m) : null;
+      const c = before[o.id];
+      let tag, msg;
+      if (pct == null) { tag = "<span class='tag mid'>pas fait</span>"; msg = "Aucun exercice fait sur ce point pour l'instant."; }
+      else {
+        const cls = pct >= 80 ? "ok" : pct >= 50 ? "mid" : "ko";
+        tag = "<span class='tag " + cls + "'>" + pct + " %</span>";
+        if (!c) msg = pct >= 80 ? "Bien joué." : "Reprends tes erreurs et relis « À retenir ».";
+        else if (c >= 3 && pct < 50) msg = "<strong>Attention :</strong> tu te sentais sûr(e) de toi, mais tes réponses montrent des manques. Relis le bilan dans ton classeur, puis refais les exercices ratés dans quelques jours.";
+        else if (c >= 3 && pct < 80) msg = "Tu te sentais sûr(e) de toi : tu y es presque. Relis les corrections de tes erreurs.";
+        else if (c >= 3) msg = "Tu te sentais sûr(e) de toi, et tu avais raison. Bravo !";
+        else if (pct >= 80) msg = "<strong>Bonne nouvelle :</strong> tu en sais plus que tu ne le pensais. Fais-toi confiance !";
+        else if (pct >= 50) msg = "Tu étais prudent(e), et tu progresses. Reprends tes erreurs.";
+        else msg = "Tu avais raison d'être prudent(e) : ce point demande du travail. Relis la séance dans ton classeur, puis explique-la à voix haute sans regarder.";
+      }
+      html += "<div class='review-card'><div class='obj-text'>" + o.text + "</div>" +
+        "<div class='review-line'>Avant : <strong>" + (c ? CONF[c - 1] : "non renseigné") + "</strong> · Mon résultat : " + tag + "</div>" +
+        "<div>" + msg + "</div></div>";
+    });
+    return html;
+  }
+
+  /* ---------- un onglet ---------- */
+  function buildLesson(meta, panel) {
+    const n = meta.n, L = LESSONS[n];
+    panel.style.setProperty("--lc", "var(--l" + n + ")");
+    panel.appendChild(el("h2", null, meta.label + " · " + meta.title));
+    panel.appendChild(el("p", { class: "question" }, meta.q));
+    if (L.intro) panel.appendChild(el("div", { class: "intro-box" }, L.intro));
+    panel.appendChild(el("div", { class: "lesson-score", id: "ls-" + n }));
+
+    function rebuild(focus) {
+      panel.innerHTML = ""; buildLesson(meta, panel); updateScores();
+      if (focus != null) panel.querySelectorAll(".exercise")[focus].scrollIntoView({ block: "center" });
+    }
+    function resetLesson() {
+      if (!confirm("Effacer toutes tes réponses de l'onglet « " + meta.label + " » ?")) return;
+      L.exercises.forEach(ex => delete state.ex[exKey(n, ex)]);
+      delete state.before[n]; delete state.after[n]; delete state.plan[n];
+      save(); rebuild();
+    }
+
+    panel.appendChild(el("div", { class: "section-title" }, "① Avant de commencer : je me sens capable de…"));
+    const before = el("div", { class: "meta-box" });
+    before.appendChild(el("p", { class: "intro" }, "Réponds honnêtement : il n'y a pas de mauvaise réponse ici. Tu compareras avec tes résultats à la fin."));
+    before.appendChild(ratingBlock(n, "before"));
+    panel.appendChild(before);
+
+    panel.appendChild(el("div", { class: "section-title" }, "② Exercices"));
+    let num = 0;
+    L.exercises.forEach((ex, i) => {
+      if (ex.part) panel.appendChild(el("div", { class: "part-box" }, ex.part));
+      num++;
+      const key = "l" + n + "e" + i, skey = exKey(n, ex);
+      const box = el("div", { class: "exercise" });
+      const head = el("div", { class: "ex-head" });
+      head.appendChild(el("div", { class: "ex-q" }, num + ". " + (ex.q || "Vrai ou faux ?")));
+      head.appendChild(el("div", { class: "ex-type" }, TYPE_LABEL[ex.type]));
+      box.appendChild(head);
+      if (ex.context) box.appendChild(el("div", { class: "statement" }, ex.context));
+      const figs = ex.figs || (ex.img ? [{ src: ex.img, cap: ex.caption }] : []);
+      if (figs.length) {
+        const row = el("div", { class: "fig-row" + (figs.length > 1 ? " two" : "") });
+        figs.forEach(f => {
+          const fig = el("figure", { class: "ex-fig" });
+          const a = el("a", { href: f.src, target: "_blank", rel: "noopener" });
+          a.appendChild(el("img", { src: f.src, alt: f.cap || "Document", loading: "lazy" }));
+          fig.appendChild(a);
+          fig.appendChild(el("figcaption", null, (f.cap ? f.cap + " " : "") + "<span class='zoom'>Touche l'image pour l'agrandir.</span>"));
+          row.appendChild(fig);
+        });
+        box.appendChild(row);
+      }
+      const body = el("div"); box.appendChild(body);
+      const api = R[ex.type](ex, body, key);
+      const btn = el("button", { class: "check-btn", type: "button" }, api.btnLabel || "Vérifier");
+      const fb = el("div", { class: "feedback" });
+      const retry = el("button", { class: "reset-btn", type: "button", style: "display:none; margin-top:10px" }, "↺ Recommencer cet exercice");
+      retry.addEventListener("click", () => { delete state.ex[skey]; save(); rebuild(i); });
+      box.appendChild(btn); box.appendChild(fb); box.appendChild(retry);
+
+      function reveal(resp) {
+        const g = api.grade(resp);
+        api.show(resp, g); api.lock(); btn.disabled = true; btn.textContent = "Fait";
+        retry.style.display = "inline-block";
+        const full = g.pts >= 0.999, zero = g.pts <= 0.001;
+        fb.className = "feedback show " + (full ? "ok" : zero ? "ko" : "mid");
+        const parts = g.ok || (g.res && g.res.map(x => x > 0));
+        const partial = parts ? parts.filter(Boolean).length + " sur " + parts.length : fmt(g.pts) + " / 1";
+        let verdict;
+        if (ex.type === "write") verdict = full ? "✓ Réponse complète !" : zero ? "✗ Réponse à reprendre." : "◐ Réponse incomplète : " + partial + " éléments présents";
+        else verdict = full ? "✓ Juste !" : zero ? "✗ Pas tout à fait." : "◐ En partie juste : " + partial;
+        let h = "<div class='verdict'>" + verdict + "</div>";
+        if (api.note && api.note(g)) h += "<div>" + api.note(g) + "</div>";
+        if (ex.why) h += "<div>" + ex.why + "</div>";
+        if (ex.mistake && !full) h += "<div class='mistake'><strong>Erreur fréquente :</strong> " + ex.mistake + "</div>";
+        fb.innerHTML = h;
+        return g;
+      }
+      btn.addEventListener("click", () => {
+        const resp = api.getResp();
+        if (resp == null) { fb.className = "feedback show warn"; fb.innerHTML = api.warn || "Réponds à toutes les parties d'abord."; return; }
+        const g = reveal(resp);
+        state.ex[skey] = { resp, pts: g.pts }; save(); updateScores();
+      });
+      const saved = state.ex[skey];
+      if (saved) { try { api.setResp(saved.resp); reveal(saved.resp); } catch (e) { delete state.ex[skey]; } }
+      panel.appendChild(box);
+    });
+
+    panel.appendChild(el("div", { class: "section-title" }, "③ Après les exercices : mon bilan"));
+    const after = el("div", { class: "meta-box" });
+    after.appendChild(el("p", { class: "intro" }, "Compare ce que tu pensais savoir avec tes résultats réels."));
+    const out = el("div");
+    const rb = el("button", { class: "check-btn", type: "button", style: "margin-top:0" }, "Voir mon bilan");
+    rb.addEventListener("click", () => { out.innerHTML = reviewTable(n); updatePlan.style.display = "block"; });
+    after.appendChild(rb); after.appendChild(out);
+
+    const updatePlan = el("div", { style: "display:none; margin-top:16px" });
+    updatePlan.appendChild(el("p", { class: "obj-text" }, "Et maintenant, je me sens capable de…"));
+    updatePlan.appendChild(ratingBlock(n, "after"));
+    updatePlan.appendChild(el("p", { class: "obj-text", style: "margin-top:14px" }, "Ce que je vais faire pour réviser (choisis une ou plusieurs actions) :"));
+    const plans = ["Relire la séance et son bilan dans mon classeur", "Refaire les exercices ratés dans 2 ou 3 jours", "Apprendre les définitions du lexique", "Expliquer la séance à voix haute, sans regarder", "Poser une question à mon professeur"];
+    const chips = el("div", { class: "scale" });
+    const myPlan = state.plan[n] = state.plan[n] || [];
+    plans.forEach((p, k) => {
+      const c = el("button", { type: "button", class: "chip" + (myPlan.includes(k) ? " on" : "") }, p);
+      c.addEventListener("click", () => {
+        const at = myPlan.indexOf(k); if (at < 0) myPlan.push(k); else myPlan.splice(at, 1);
+        c.classList.toggle("on"); save();
+      });
+      chips.appendChild(c);
+    });
+    updatePlan.appendChild(chips);
+    after.appendChild(updatePlan);
+    if (lessonScore(n).done) { out.innerHTML = reviewTable(n); updatePlan.style.display = "block"; }
+    panel.appendChild(after);
+
+    const key = el("details", { class: "key" });
+    key.appendChild(el("summary", null, "À retenir : " + (L.keyTitle || "le bilan de la séance")));
+    key.appendChild(el("ul", null, L.keyIdeas.map(k => "<li>" + k + "</li>").join("")));
+    panel.appendChild(key);
+
+    const reset = el("button", { class: "reset-btn", type: "button" }, "↺ Effacer mes réponses de cet onglet et recommencer");
+    reset.addEventListener("click", resetLesson);
+    panel.appendChild(reset);
+  }
+
+  function buildGlossary(panel) {
+    panel.appendChild(el("h2", null, "Lexique de la Partie 1"));
+    panel.appendChild(el("p", { class: "question" }, "Les mots à connaître et à savoir définir. Tape un mot pour le retrouver."));
+    const search = el("input", { class: "gloss-search", type: "search", placeholder: "Chercher un mot…" });
+    panel.appendChild(search);
+    const wrap = el("div", { class: "gloss" });
+    LESSON_META.forEach(m => {
+      const L = LESSONS[m.n]; if (!L || !L.glossary || !L.glossary.length) return;
+      const sec = el("div");
+      sec.appendChild(el("h3", null, m.label + " · " + m.title));
+      const t = el("table", { class: "gloss" });
+      t.innerHTML = L.glossary.map(g => "<tr data-s=\"" + norm(g.join(" ")) + "\"><td>" + g[0] + "</td><td>" + g[1] + "</td></tr>").join("");
+      sec.appendChild(t); wrap.appendChild(sec);
+    });
+    panel.appendChild(wrap);
+    search.addEventListener("input", () => {
+      const q = norm(search.value);
+      wrap.querySelectorAll("tr[data-s]").forEach(tr => tr.style.display = !q || tr.dataset.s.includes(q) ? "" : "none");
+    });
+  }
+
+  /* ---------- onglets ---------- */
+  const tabs = document.getElementById("tabs"), panels = document.getElementById("panels");
+  const tabList = [];
+  LESSON_META.forEach(m => {
+    const b = el("button", { class: "tab-btn", type: "button", style: "background:var(--l" + m.n + ")" },
+      m.label + "<small>" + m.short + "</small>");
+    const p = el("section", { class: "panel" });
+    buildLesson(m, p);
+    tabs.appendChild(b); panels.appendChild(p);
+    tabList.push({ id: "L" + m.n, b, p });
+  });
+  const gb = el("button", { class: "tab-btn glossary", type: "button" }, "📖 Lexique<small>les définitions</small>");
+  const gp = el("section", { class: "panel" }); buildGlossary(gp);
+  tabs.appendChild(gb); panels.appendChild(gp); tabList.push({ id: "G", b: gb, p: gp });
+
+  function activate(id, scroll) {
+    tabList.forEach(t => { const on = t.id === id; t.b.classList.toggle("active", on); t.p.classList.toggle("active", on); });
+    state.tab = id; save();
+    if (scroll) tabs.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+  tabList.forEach(t => t.b.addEventListener("click", () => activate(t.id, false)));
+  const valid = tabList.some(t => t.id === state.tab);
+  activate(valid ? state.tab : "L1");
+
+  document.getElementById("reset-all").addEventListener("click", () => {
+    if (!confirm("Effacer toutes tes réponses, dans tous les onglets ?")) return;
+    try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+    location.reload();
+  });
+  updateScores();
+
+  /* ---------- accueil / partie (l'adresse se termine par #partie1 dans la partie) ---------- */
+  function route() {
+    document.body.classList.toggle("in-p1", location.hash === "#partie1");
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+  route();
+})();
+
+</script>
+</body>
+</html>
