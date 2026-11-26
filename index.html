@@ -282,6 +282,9 @@
   .ex-type { white-space: normal; }
 
   details.howto summary { cursor: pointer; }
+  .err-btn { margin-top: 4px; border-color: var(--lc, var(--accent)); color: var(--lc, var(--accent)); font-weight: 700; }
+  .err-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 4px 0 8px; font-size: .9em; }
+  .err-bar .reset-btn { margin-top: 0; }
 </style>
 </head>
 <body>
@@ -319,7 +322,7 @@
     <summary><strong>Comment utiliser cette page ?</strong> (touche pour lire)</summary>
     <ul style="margin-top:10px">
       <li><strong>Après chaque séance</strong> : fais les exercices de l'onglet de la séance (10 à 15 minutes).</li>
-      <li><strong>Chaque semaine</strong> : refais les exercices ratés et l'onglet « Bilan ».</li>
+      <li><strong>Chaque semaine</strong> : refais les exercices ratés (bouton « 🎯 Refaire seulement mes erreurs », en haut de chaque onglet) et l'onglet « Bilan ».</li>
       <li><strong>Avant le contrôle</strong> : tout l'onglet « Bilan », puis « Transposer », pour t'entraîner sur des exemples nouveaux.</li>
       <li>Réponds toujours <strong>avant</strong> de regarder la correction : c'est en cherchant que l'on retient.</li>
     </ul>
@@ -360,8 +363,8 @@ LESSONS[1] = {
     { type: "fill", obj: "o1", q: "Complète la définition du microbiote.",
       text: "Le microbiote humain est l'ensemble des [[micro-organismes||cellules humaines;organes;virus pathogènes]] qui vivent [[sur et dans||uniquement dans;uniquement sur;loin de]] le corps humain. Ce sont surtout des [[bactéries||cellules musculaires;parasites;virus]], mais aussi des champignons microscopiques.",
       why: "On les trouve sur la peau et sur les surfaces respiratoires, sexuelles et digestives (bouche, intestin…)." },
-    { type: "mcq", obj: "o1", q: "Le microbiote compte plus de cellules que notre propre corps, mais il ne pèse que 1 à 2 kg. Comment l'expliquer ?",
-      img: "img/s1_chiffres.jpg", caption: "L'être humain et son microbiote : quelques chiffres. Attention : les estimations récentes donnent environ 30 000 milliards de cellules humaines (et non 3 000) pour 38 000 milliards de bactéries : nous avons donc à peu près autant de bactéries que de cellules, un peu plus.",
+    { type: "mcq", obj: "o1", q: "Le microbiote compte un peu plus de cellules que notre propre corps, mais il pèse beaucoup moins. Comment l'expliquer ?",
+      img: "img/s1_chiffres.jpg", caption: "L'être humain et son microbiote : quelques chiffres. Attention : les estimations récentes donnent environ 30 000 milliards de cellules humaines (et non 3 000) pour 38 000 milliards de bactéries : nous avons donc à peu près autant de bactéries que de cellules, un peu plus. Elles estiment aussi la masse des bactéries du microbiote à environ 0,2 kg, plutôt que 1 à 2 kg.",
       options: ["Les cellules des micro-organismes (surtout des bactéries) sont beaucoup plus petites que nos cellules", "Le microbiote ne contient pas d'eau", "Les micro-organismes sont des virus, qui ne pèsent rien", "Le document se trompe : le microbiote pèse autant que le corps"], answer: 0,
       why: "Une bactérie mesure environ 1 à 2 µm, une cellule humaine en général 10 à 30 µm : on peut donc avoir un très grand nombre de bactéries pour une masse faible.",
       mistake: "comparer des nombres de cellules comme s'il s'agissait de masses. Beaucoup de petites cellules peuvent peser moins que moins de grosses cellules." },
@@ -436,13 +439,17 @@ LESSONS[2] = {
   ],
   exercises: [
     { type: "mcq", obj: "o1", q: "Une souris axénique est une souris :",
-      options: ["élevée sans aucun micro-organisme", "malade", "qui a reçu un antibiotique la veille", "obèse"], answer: 0,
-      why: "Comparer des souris axéniques à des souris normales permet de voir ce que change la présence du microbiote." },
-    { type: "mcq", obj: "o2", q: "Regarde les souris élevées par groupes (T, Mi, Ob). Quelle conclusion peut-on tirer ?",
+      options: ["élevée sans aucun micro-organisme", "élevée sans aucun micro-organisme pathogène, mais avec un microbiote", "dont le microbiote est moins diversifié que celui d'une souris normale", "qui a reçu un antibiotique la veille"], answer: 0,
+      why: "Axénique veut dire « sans aucun micro-organisme », pas seulement sans pathogène. Comparer des souris axéniques à des souris normales permet de voir ce que change la présence du microbiote.",
+      mistake: "penser qu'une souris axénique a seulement moins de micro-organismes, ou seulement pas de pathogènes. Elle n'en a aucun." },
+    { type: "write", obj: "o2", q: "Regarde les souris élevées par groupes (T, Mi, Ob). Décris les résultats en citant des valeurs, puis conclus.",
+      context: "<p>Des souris axéniques reçoivent le microbiote intestinal d'une personne mince (Mi) ou d'une personne obèse (Ob). Les souris T restent axéniques&nbsp;: elles ne reçoivent aucun microbiote. Toutes reçoivent la même alimentation. Pour l'instant, ne regarde pas les deux barres «&nbsp;Coélevage&nbsp;».</p>",
       figs: [{ src: "img/s2_exp1_protocole.jpg", cap: "Protocole : transfert de microbiote à des souris axéniques." }, { src: "img/s2_exp1_resultats.jpg", cap: "Variation de la masse graisseuse après 10 jours." }],
-      options: ["Les souris ayant reçu le microbiote d'une personne obèse ont pris environ 10 % de masse graisseuse, contre presque 0 % avec le microbiote d'une personne mince", "Toutes les souris ont pris la même masse graisseuse", "Les souris sans microbiote (T) sont celles qui ont le plus grossi", "Le microbiote d'une personne mince fait fortement maigrir les souris"], answer: 0,
-      why: "Les souris ne diffèrent que par le microbiote reçu : la composition du microbiote influence le stockage des graisses.",
-      mistake: "comparer les barres sans regarder le zéro : la barre T est négative (perte de masse graisseuse)." },
+      model: "Les souris T, sans microbiote, perdent environ 4 % de masse graisseuse. Les souris qui ont reçu le microbiote d'une personne mince (Mi) ne varient presque pas (environ 0 %). Celles qui ont reçu le microbiote d'une personne obèse (Ob) gagnent environ 10 % de masse graisseuse. Les souris ne diffèrent que par le microbiote reçu : la composition du microbiote influence donc le stockage des graisses.",
+      criteria: ["J'ai cité des valeurs lues sur le graphique (environ −4 % pour T, environ 0 % pour Mi, environ +10 % pour Ob).",
+                 "J'ai comparé les groupes : les souris Ob stockent beaucoup plus de graisses que les souris Mi et T.",
+                 "J'ai précisé que la seule différence entre les groupes est le microbiote reçu.",
+                 "J'ai conclu : la composition du microbiote influence le stockage des graisses."] },
     { type: "mcq", obj: "o2", q: "En coélevage, la souris Ob ne prend plus qu'environ 3 % de masse graisseuse. Quelle est l'explication la plus probable ?",
       img: "img/s2_exp1_resultats.jpg", caption: "Mêmes résultats : regarde les deux barres de droite.",
       options: ["En mangeant les excréments de la souris Mi, elle a reçu une partie de son microbiote, qui limite le stockage des graisses", "Elle a cessé de manger", "Son microbiote a complètement disparu", "Le coélevage rend les souris malades"], answer: 0,
@@ -489,9 +496,9 @@ LESSONS[2] = {
       why: "Le placebo n'a pas de principe actif. Seule la différence entre les deux groupes peut être attribuée au traitement testé." },
     { type: "mcq", obj: "o3", q: "Pour la maladie de Crohn, il n'y a pas de différence entre la préparation et le placebo. Que peut-on conclure ?",
       img: "img/s2_exp6.jpg", caption: "Mêmes essais : regarde la partie droite.",
-      options: ["Cette préparation n'a pas montré d'efficacité : agir sur le microbiote n'est pas utile dans toutes les maladies", "Le microbiote est la seule cause de la maladie de Crohn", "Le placebo guérit la maladie de Crohn", "La préparation aggrave la maladie"], answer: 0,
-      why: "Pour la colite ulcéreuse, la préparation fait mieux que le placebo (48 % contre 32 %), mais pas pour la maladie de Crohn.",
-      mistake: "conclure que le microbiote est la cause unique de ces maladies. Ses perturbations peuvent contribuer à leur développement, mais ne sont pas la seule cause." }
+      options: ["Dans cet essai, cette préparation n'a pas montré d'efficacité contre la maladie de Crohn", "Agir sur le microbiote ne pourra jamais soigner la maladie de Crohn", "Le microbiote est la seule cause de la maladie de Crohn", "Le placebo guérit la maladie de Crohn"], answer: 0,
+      why: "Pour la colite ulcéreuse, la préparation fait mieux que le placebo (48 % contre 32 %), mais pas pour la maladie de Crohn. On conclut seulement sur ce qui a été testé : cette préparation, dans cet essai. Agir sur le microbiote est utile dans certaines maladies, pas dans toutes.",
+      mistake: "généraliser à partir d'un seul essai. L'échec d'une préparation ne prouve pas qu'aucune action sur le microbiote ne pourra aider contre cette maladie." }
   ],
   keyIdeas: [
     "Le microbiote participe à la nutrition et au métabolisme. Il contribue à l'utilisation de certains constituants alimentaires et peut influencer le stockage des graisses.",
@@ -621,7 +628,7 @@ LESSONS[4] = {
   exercises: [
     { type: "fill", obj: "o1", q: "Retrouve le mot qui correspond à chaque définition (la première lettre est donnée).",
       text: "<ol style='margin-left:18px'><li>Agent biologique responsable d'une maladie (a… p…) : [[agent pathogène|un agent pathogène|pathogène]]</li><li>Être vivant qui prélève un pathogène sur un hôte et le transmet à un autre (v… b…) : [[vecteur biologique|un vecteur biologique|vecteur]]</li><li>Espèce dans laquelle un pathogène se maintient et se multiplie (r…) : [[réservoir|un réservoir|le réservoir]]</li><li>Individu infecté qui ne présente pas de symptômes (p… s…) : [[porteur sain|un porteur sain]]</li></ol>",
-      why: "Ces définitions sont à connaître par cœur, mot pour mot ou presque." },
+      why: "Le mot doit être exact. Pour la définition, tu n'as pas besoin de la réciter mot pour mot : vérifie surtout qu'elle contient les éléments essentiels (pour le vecteur : un être vivant, qui prélève, qui transmet)." },
     { type: "fill", obj: "o1", q: "Même exercice, avec d'autres mots.",
       text: "<ol style='margin-left:18px'><li>Association durable entre deux êtres vivants dont chacun tire bénéfice (s…) : [[symbiose|une symbiose|la symbiose]]</li><li>Se dit d'un animal élevé sans aucun micro-organisme (a…) : [[axénique]]</li><li>Se dit d'une maladie présente durablement dans une région (e…) : [[endémique]]</li><li>Ensemble des mesures destinées à prévenir une maladie (p…) : [[prophylaxie|la prophylaxie]]</li></ol>",
       why: "Pense à vérifier l'orthographe : axénique, prophylaxie." },
@@ -723,8 +730,8 @@ LESSONS[5] = {
       options: ["Les maisons des deux compagnies sont mêlées dans les mêmes rues : même air, mêmes conditions de vie. Seule l'eau change", "Parce que John Snow était médecin", "Parce qu'il a observé la bactérie au microscope", "Parce que les deux compagnies puisaient la même eau"], answer: 0,
       why: "Comme dans une expérience avec un témoin, un seul facteur diffère entre les deux groupes : l'eau. C'est donc l'eau qui est en cause, et pas l'air." },
     { type: "mcq", obj: "o2", q: "Quel est le mode de transmission du choléra mis en évidence ?",
-      options: ["Transmission directe par le milieu : la bactérie, rejetée dans les selles des malades, passe dans l'eau puis est avalée par d'autres personnes", "Transmission vectorielle : l'eau est le vecteur du choléra", "Transmission par l'air", "Transmission vectorielle par les moustiques de la Tamise"], answer: 0,
-      why: "Aucun être vivant ne transporte la bactérie d'un humain à un autre : l'eau est le milieu par lequel elle passe.",
+      options: ["Transmission par le milieu, sans vecteur : la bactérie, rejetée dans les selles des malades, passe dans l'eau puis est avalée par d'autres personnes", "Transmission vectorielle : l'eau est le vecteur du choléra", "Transmission par l'air", "Transmission vectorielle par les moustiques de la Tamise"], answer: 0,
+      why: "Aucun être vivant ne transporte la bactérie d'un humain à un autre : l'eau est le milieu par lequel elle passe. Comme il n'y a pas de vecteur biologique, ton cours classe ce mode de transmission avec les transmissions directes.",
       mistake: "dire que l'eau est un vecteur. Un vecteur biologique est un être vivant ; l'eau est un milieu qui transporte la bactérie : c'est une transmission directe par le milieu." },
     { type: "sort", obj: "o2", q: "Quelles mesures sont adaptées pour lutter contre le choléra ?",
       bins: ["Adaptée", "Inutile ici"],
@@ -776,7 +783,7 @@ LESSONS[5] = {
               ["Maladie du sommeil", "Piéger les mouches tsé-tsé, dépister et soigner les malades"]],
       why: "Chaque mesure agit sur le mode de transmission de la maladie concernée." },
     { type: "tf", obj: "o1", statement: "Un agent pathogène est toujours un micro-organisme.", answer: false,
-      why: "Faux. L'acarien de la gale mesure environ 0,3 mm : c'est un agent pathogène, mais pas un micro-organisme. Les agents pathogènes peuvent être des virus, des bactéries ou des eucaryotes (champignons, parasites…)." }
+      why: "Faux. L'acarien de la gale est un petit animal, formé de nombreuses cellules (il a des pattes, comme les araignées). C'est un agent pathogène, mais pas un micro-organisme. Les agents pathogènes peuvent être des virus, des bactéries, des champignons, des parasites unicellulaires comme Plasmodium, ou même de petits animaux." }
   ],
   keyIdeas: [
     "Face à une maladie inconnue, cherche toujours : l'agent pathogène, son réservoir, s'il y a un vecteur biologique, et les étapes du passage d'un hôte à un autre.",
@@ -796,6 +803,7 @@ LESSONS[5] = {
 (function () {
   const STORE_KEY = "svt2-partie1-revision-v1";
   const CONF = ["Pas encore", "Un peu", "Plutôt oui", "Oui, sans hésiter"];
+  const errMode = {};
 
   /* ---------- storage (optional: the page works without it) ---------- */
   let state = { ex: {}, before: {}, after: {}, plan: {}, tab: null };
@@ -1095,12 +1103,17 @@ LESSONS[5] = {
     L.exercises.forEach(ex => { const s = state.ex[exKey(n, ex)]; if (s) pts += s.pts; });
     return { pts, max: L.exercises.length, done: L.exercises.filter(ex => state.ex[exKey(n, ex)]).length };
   }
+  function missedOf(n) {
+    return LESSONS[n].exercises.filter(ex => { const s = state.ex[exKey(n, ex)]; return s && s.pts < 0.999; });
+  }
   function updateScores() {
     let pts = 0, max = 0;
     Object.keys(LESSONS).forEach(n => {
       const s = lessonScore(n); pts += s.pts; max += s.max;
       const tag = document.getElementById("ls-" + n);
       if (tag) tag.textContent = "Exercices faits : " + s.done + " / " + s.max + "  ·  Points : " + fmt(s.pts) + " / " + s.max;
+      const eb = document.getElementById("err-" + n), k = missedOf(n).length;
+      if (eb) { eb.style.display = k ? "" : "none"; eb.textContent = "🎯 Refaire seulement mes erreurs (" + k + ")"; }
     });
     document.getElementById("total-score").textContent = fmt(pts) + " / " + max;
     document.getElementById("total-score-2").textContent = fmt(pts) + " / " + max;
@@ -1167,6 +1180,23 @@ LESSONS[5] = {
     if (L.intro) panel.appendChild(el("div", { class: "intro-box" }, L.intro));
     panel.appendChild(el("div", { class: "lesson-score", id: "ls-" + n }));
 
+    /* « mes erreurs » : efface les réponses ratées et masque, le temps de la visite, les exercices réussis */
+    if (errMode[n]) {
+      const bar = el("div", { class: "err-bar" }, "🎯 <span>Seuls les exercices ratés ou pas encore faits sont affichés.</span>");
+      const all = el("button", { class: "reset-btn", type: "button" }, "Tout afficher");
+      all.addEventListener("click", () => { delete errMode[n]; rebuild(); });
+      bar.appendChild(all); panel.appendChild(bar);
+    } else {
+      const b = el("button", { class: "reset-btn err-btn", type: "button", id: "err-" + n, style: "display:none" });
+      b.addEventListener("click", () => {
+        missedOf(n).forEach(ex => delete state.ex[exKey(n, ex)]);
+        errMode[n] = true; save(); rebuild();
+        const first = [...panel.querySelectorAll(".exercise")].find(x => x.style.display !== "none");
+        if (first) first.scrollIntoView({ block: "start" });
+      });
+      panel.appendChild(el("div", null)).appendChild(b);
+    }
+
     function rebuild(focus) {
       panel.innerHTML = ""; buildLesson(meta, panel); updateScores();
       if (focus != null) panel.querySelectorAll(".exercise")[focus].scrollIntoView({ block: "center" });
@@ -1185,12 +1215,15 @@ LESSONS[5] = {
     panel.appendChild(before);
 
     panel.appendChild(el("div", { class: "section-title" }, "② Exercices"));
-    let num = 0;
+    let num = 0, part = null;
     L.exercises.forEach((ex, i) => {
-      if (ex.part) panel.appendChild(el("div", { class: "part-box" }, ex.part));
+      if (ex.part) { part = el("div", { class: "part-box" }, ex.part); part.dataset.shown = ""; panel.appendChild(part); }
       num++;
       const key = "l" + n + "e" + i, skey = exKey(n, ex);
       const box = el("div", { class: "exercise" });
+      const done = state.ex[skey];
+      if (errMode[n] && done && done.pts >= 0.999) box.style.display = "none";
+      else if (part) part.dataset.shown = "1";
       const head = el("div", { class: "ex-head" });
       head.appendChild(el("div", { class: "ex-q" }, num + ". " + (ex.q || "Vrai ou faux ?")));
       head.appendChild(el("div", { class: "ex-type" }, TYPE_LABEL[ex.type]));
@@ -1245,6 +1278,7 @@ LESSONS[5] = {
       if (saved) { try { api.setResp(saved.resp); reveal(saved.resp); } catch (e) { delete state.ex[skey]; } }
       panel.appendChild(box);
     });
+    if (errMode[n]) panel.querySelectorAll(".part-box").forEach(p => { if (!p.dataset.shown) p.style.display = "none"; });
 
     panel.appendChild(el("div", { class: "section-title" }, "③ Après les exercices : mon bilan"));
     const after = el("div", { class: "meta-box" });
