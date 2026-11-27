@@ -377,10 +377,15 @@ LESSONS[1] = {
       options: ["La composition du microbiote est différente selon la région du corps", "Toutes les régions du corps abritent les mêmes bactéries, dans les mêmes proportions", "Seul l'intestin abrite des bactéries", "Le microbiote du vagin est surtout formé d'Actinobacteria"], answer: 0,
       why: "Les grands groupes de bactéries sont plus ou moins représentés selon le site : chaque région du corps (peau, bouche, vagin, intestin…) offre des conditions différentes. Dans le vagin, ce sont les Firmicutes (en rouge) qui dominent.",
       mistake: "lire la légende trop vite. Avant de conclure, associe chaque couleur à son groupe de bactéries." },
-    { type: "tf", obj: "o1", statement: "Deux personnes en bonne santé ont exactement le même microbiote.", answer: false,
-      why: "Faux. Chaque individu possède un microbiote unique : sa composition dépend de sa naissance, de son alimentation, des médicaments pris, de son environnement… On retrouve les mêmes grands groupes de bactéries, mais pas dans les mêmes proportions." },
-    { type: "tf", obj: "o1", statement: "Les micro-organismes de notre microbiote sont des microbes dangereux, qu'il faudrait éliminer.", answer: false,
-      why: "Faux. La très grande majorité ne provoque aucune maladie, et beaucoup nous sont utiles (tu le verras en séance 2)." },
+    { type: "quiz", label: "Vrai ou faux", obj: "o1", q: "Pour chaque affirmation, indique si elle est vraie ou fausse.",
+      questions: [
+        { q: "Chaque personne possède un microbiote qui lui est propre.", options: ["Vrai", "Faux"], answer: 0, fixed: true,
+          why: "Vrai. Sa composition dépend de sa naissance, de son alimentation, des médicaments pris, de son environnement… On retrouve les mêmes grands groupes de bactéries chez tout le monde, mais pas dans les mêmes proportions." },
+        { q: "Les micro-organismes de notre microbiote sont des microbes dangereux, qu'il faudrait éliminer.", options: ["Vrai", "Faux"], answer: 1, fixed: true,
+          why: "Faux. La très grande majorité ne provoque aucune maladie, et beaucoup nous sont utiles (tu le verras en séance 2)." },
+        { q: "Un traitement antibiotique ne détruit que les bactéries responsables de la maladie.", options: ["Vrai", "Faux"], answer: 1, fixed: true,
+          why: "Faux. Un antibiotique agit aussi sur de nombreuses bactéries de notre microbiote : il le perturbe et diminue sa diversité. C'est une raison de n'utiliser les antibiotiques que lorsqu'ils sont vraiment nécessaires." }
+      ] },
     { type: "order", obj: "o2", q: "Remets dans l'ordre les étapes de la mise en place du microbiote intestinal d'un bébé.",
       items: ["À la naissance, le bébé est colonisé par des micro-organismes de sa mère (vagin ou peau, selon le mode d'accouchement).",
               "Les premières bactéries installées dans l'intestin consomment le dioxygène qui s'y trouve.",
@@ -404,8 +409,6 @@ LESSONS[1] = {
       options: ["La pastille 1", "La pastille 2", "La pastille 3", "Les trois se valent"], answer: 0,
       why: "La pastille 1 a la plus grande zone décolorée. Autour de la pastille 3, rien n'est décoloré : cette substance n'a pas d'effet sur cette souche.",
       mistake: "regarder la taille de la pastille au lieu de la taille de la zone décolorée autour d'elle." },
-    { type: "tf", obj: "o3", statement: "Un traitement antibiotique ne détruit que les bactéries responsables de la maladie.", answer: false,
-      why: "Faux. Un antibiotique agit aussi sur de nombreuses bactéries de notre microbiote : il le perturbe et diminue sa diversité. C'est une raison de n'utiliser les antibiotiques que lorsqu'ils sont vraiment nécessaires." },
     { type: "order", obj: "o3", q: "L'utilisation abusive de gels hydroalcooliques peut favoriser des bactéries résistantes. Remets les étapes dans l'ordre.",
       items: ["Dans une population de bactéries, quelques-unes possèdent déjà, par hasard, un caractère qui les rend résistantes au gel.",
               "Le gel hydroalcoolique est utilisé de façon répétée et abusive.",
@@ -491,8 +494,9 @@ LESSONS[2] = {
       options: ["L'antibiotique a détruit une partie des bactéries du microbiote, qui occupaient la place et consommaient les ressources : C. difficile n'a plus de concurrents", "L'antibiotique nourrit C. difficile", "L'antibiotique transforme les bactéries du microbiote en C. difficile", "C. difficile est un virus, insensible aux antibiotiques"], answer: 0,
       why: "Les micro-organismes du microbiote sont en compétition avec les pathogènes (pour la place, pour les nutriments). Un microbiote fortement perturbé protège moins bien.",
       mistake: "croire que l'antibiotique crée la maladie. Il perturbe le microbiote, ce qui laisse la place à une bactérie qui était déjà là ou qui arrive." },
-    { type: "tf", obj: "o3", statement: "Un micro-organisme habituellement sans danger dans le microbiote peut devenir pathogène si l'équilibre du microbiote est perturbé ou si les défenses de l'organisme sont affaiblies.", answer: true,
-      why: "Vrai. C. difficile peut par exemple être présent sans provoquer de symptômes chez certaines personnes, puis proliférer après un traitement antibiotique." },
+    { type: "mcq", obj: "o3", q: "Une bactérie comme C. difficile peut vivre dans l'intestin sans provoquer de symptômes, puis devenir dangereuse. Dans quel cas ?",
+      options: ["Quand l'équilibre du microbiote est perturbé (par exemple par un antibiotique) ou quand les défenses de l'organisme sont affaiblies", "Jamais : une bactérie sans danger le reste toujours", "Seulement quand la personne mange beaucoup de fibres", "Seulement si la bactérie se transforme en virus"], answer: 0,
+      why: "C. difficile peut par exemple être présent sans provoquer de symptômes chez certaines personnes, puis proliférer après un traitement antibiotique." },
     { type: "mcq", obj: "o1", q: "Dans ces essais cliniques, à quoi sert le groupe qui reçoit un placebo ?",
       img: "img/s2_exp6.jpg", caption: "Deux essais cliniques visant le microbiote.",
       options: ["À vérifier que l'amélioration vient bien du traitement testé, et pas d'autres facteurs (guérison spontanée, effet de prendre un comprimé…)", "À soigner les patients plus vite", "À donner une dose plus faible du traitement", "À remplacer le traitement quand il manque"], answer: 0,
@@ -573,8 +577,13 @@ LESSONS[3] = {
       img: "img/s3_palu_carte.jpg", caption: "Répartition mondiale des zones touchées par le paludisme.",
       options: ["Le paludisme persiste surtout dans les régions tropicales, en particulier en Afrique subsaharienne, qui compte 92 % des cas", "Le paludisme touche autant l'Europe que l'Afrique", "Aucun pays n'a réussi à éliminer le paludisme", "Le paludisme a disparu d'Amérique du Sud"], answer: 0,
       why: "Les étoiles montrent que plusieurs pays ont récemment éliminé la maladie : la lutte peut réussir." },
-    { type: "tf", obj: "o1", statement: "Le paludisme est endémique en Afrique subsaharienne : il y est présent de façon durable.", answer: true,
-      why: "Vrai. Une maladie endémique est présente durablement dans une région. Une épidémie est une forte augmentation du nombre de cas en peu de temps." },
+    { type: "quiz", label: "Vrai ou faux", obj: "o1", q: "Pour chaque affirmation, indique si elle est vraie ou fausse.",
+      questions: [
+        { q: "Le paludisme est endémique en Afrique subsaharienne : il y est présent de façon durable.", options: ["Vrai", "Faux"], answer: 0, fixed: true,
+          why: "Vrai. Une maladie endémique est présente durablement dans une région. Une épidémie est une forte augmentation du nombre de cas en peu de temps." },
+        { q: "Il existe aujourd'hui un vaccin qui protège totalement contre le paludisme.", options: ["Vrai", "Faux"], answer: 1, fixed: true,
+          why: "Faux. Des vaccins existent pour les jeunes enfants des régions touchées, mais ils ne protègent que partiellement : il faut continuer à utiliser moustiquaires, répulsifs, insecticides et traitements." }
+      ] },
     { type: "match", obj: "o3", q: "Associe chaque moyen de prévention ou de lutte à ce qu'il permet.",
       pairs: [["Préservatif", "Empêche le contact avec les liquides biologiques lors d'un rapport sexuel"],
               ["Dépistage", "Permet de connaître son statut, d'être soigné et d'éviter de transmettre le virus"],
@@ -584,8 +593,6 @@ LESSONS[3] = {
               ["Assèchement des eaux stagnantes", "Supprime les lieux où se développent les larves du vecteur"],
               ["Médicament antipaludique", "Soigne la personne infectée (ou la protège pendant un voyage)"]],
       why: "La prévention dépend du mode de transmission : contre le VIH, on agit sur les contacts entre personnes ; contre le paludisme, on agit surtout sur le vecteur." },
-    { type: "tf", obj: "o3", statement: "Il existe aujourd'hui un vaccin qui protège totalement contre le paludisme.", answer: false,
-      why: "Faux. Des vaccins existent pour les jeunes enfants des régions touchées, mais ils ne protègent que partiellement : il faut continuer à utiliser moustiquaires, répulsifs, insecticides et traitements." },
     { type: "write", obj: "o2", q: "Un élève affirme : « Le paludisme et le SIDA se transmettent tous les deux par le sang, donc ils ont le même mode de transmission. » Explique en quelques lignes pourquoi il se trompe.",
       model: "Le VIH passe directement d'une personne à une autre, par certains liquides biologiques (rapports sexuels, sang, de la mère à l'enfant) : aucun autre être vivant n'intervient, c'est une transmission directe. Le parasite du paludisme, lui, ne passe pas directement d'un humain à un autre : un moustique anophèle femelle le prélève en piquant une personne infectée, le parasite se développe chez lui, puis le moustique le transmet à une autre personne en la piquant. C'est une transmission vectorielle.",
       criteria: ["J'ai dit que le VIH passe directement d'un humain à un autre, sans autre être vivant (transmission directe).",
@@ -761,8 +768,9 @@ LESSONS[5] = {
                  "J'ai comparé les deux groupes : microbiote intact = pas d'infection ; microbiote détruit = infection.",
                  "J'ai expliqué le mécanisme : compétition pour la place et la nourriture (et/ou molécules produites par le microbiote).",
                  "J'ai conclu que le microbiote a un rôle protecteur, affaibli par les antibiotiques."] },
-    { type: "tf", obj: "o3", statement: "Cette expérience montre qu'il ne faut jamais prendre d'antibiotiques.", answer: false,
-      why: "Faux. Les antibiotiques sont indispensables pour soigner les infections bactériennes. L'expérience montre qu'ils ont aussi un effet sur le microbiote : il faut donc les utiliser seulement quand ils sont nécessaires." },
+    { type: "mcq", obj: "o3", q: "Que peut-on conclure de cette expérience sur l'usage des antibiotiques ?",
+      options: ["Les antibiotiques restent indispensables, mais ils perturbent aussi le microbiote : il faut les utiliser seulement quand c'est nécessaire", "Il ne faut jamais prendre d'antibiotiques", "Les antibiotiques renforcent la protection contre les salmonelles", "Les antibiotiques n'ont aucun effet sur le microbiote"], answer: 0,
+      why: "Les antibiotiques sont indispensables pour soigner les infections bactériennes. L'expérience montre qu'ils ont aussi un effet sur le microbiote : il faut donc les utiliser seulement quand ils sont nécessaires." },
 
     { part: "<h3>Cas 4 · Classement express</h3><p>Pour chaque maladie, repère le mode de transmission, puis choisis la prévention adaptée.</p>",
       type: "sort", obj: "o2", q: "Transmission directe ou vectorielle ?",
@@ -786,8 +794,9 @@ LESSONS[5] = {
               ["Gale", "Éviter les contacts peau contre peau, traiter le malade et son entourage, laver le linge à 60 °C"],
               ["Maladie du sommeil", "Piéger les mouches tsé-tsé, dépister et soigner les malades"]],
       why: "Chaque mesure agit sur le mode de transmission de la maladie concernée." },
-    { type: "tf", obj: "o1", statement: "Un agent pathogène est toujours un micro-organisme.", answer: false,
-      why: "Faux. L'acarien de la gale est un petit animal, formé de nombreuses cellules (il a des pattes, comme les araignées). C'est un agent pathogène, mais pas un micro-organisme. Les agents pathogènes peuvent être des virus, des bactéries, des champignons, des parasites unicellulaires comme Plasmodium, ou même de petits animaux." }
+    { type: "mcq", obj: "o1", q: "Un agent pathogène est-il toujours un micro-organisme ?",
+      options: ["Non : l'acarien de la gale, un petit animal, est un agent pathogène sans être un micro-organisme", "Oui : tous les agents pathogènes sont microscopiques", "Oui : seuls les virus et les bactéries sont des agents pathogènes", "Non : les virus ne sont jamais des agents pathogènes"], answer: 0,
+      why: "L'acarien de la gale est un petit animal, formé de nombreuses cellules (il a des pattes, comme les araignées). C'est un agent pathogène, mais pas un micro-organisme. Les agents pathogènes peuvent être des virus, des bactéries, des champignons, des parasites unicellulaires comme Plasmodium, ou même de petits animaux." }
   ],
   keyIdeas: [
     "Face à une maladie inconnue, cherche toujours : l'agent pathogène, son réservoir, s'il y a un vecteur biologique, et les étapes du passage d'un hôte à un autre.",
@@ -964,7 +973,7 @@ LESSONS[5] = {
       const wrap = el("div", { class: "quiz-q" });
       wrap.appendChild(el("div", { class: "quiz-t" }, String.fromCharCode(97 + qi) + ". " + q.q));
       const labels = [];
-      shuffledIdx(q.options.length).forEach(i => {
+      (q.fixed ? [...q.options.keys()] : shuffledIdx(q.options.length)).forEach(i => {
         const lab = el("label", { class: "option" });
         const inp = el("input", { type: "radio", name: key + "q" + qi, value: i });
         lab.appendChild(inp); lab.appendChild(el("span", null, q.options[i]));
@@ -1277,7 +1286,7 @@ LESSONS[5] = {
       else if (part) part.dataset.shown = "1";
       const head = el("div", { class: "ex-head" });
       head.appendChild(el("div", { class: "ex-q" }, num + ". " + (ex.q || "Vrai ou faux ?")));
-      head.appendChild(el("div", { class: "ex-type" }, TYPE_LABEL[ex.type]));
+      head.appendChild(el("div", { class: "ex-type" }, ex.label || TYPE_LABEL[ex.type]));
       box.appendChild(head);
       if (ex.context) box.appendChild(el("div", { class: "statement" }, ex.context));
       const figs = ex.figs || (ex.img ? [{ src: ex.img, cap: ex.caption }] : []);
