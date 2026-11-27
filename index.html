@@ -285,6 +285,10 @@
   .err-btn { margin-top: 4px; border-color: var(--lc, var(--accent)); color: var(--lc, var(--accent)); font-weight: 700; }
   .err-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; margin: 4px 0 8px; font-size: .9em; }
   .err-bar .reset-btn { margin-top: 0; }
+  .fill-text .hint { color: var(--muted); font-size: .85em; margin: 0 4px; white-space: nowrap; }
+  .quiz-q + .quiz-q { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .quiz-t { font-weight: 700; margin-bottom: 6px; }
+  .quiz-why { font-size: .88em; color: var(--muted); margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -626,23 +630,24 @@ LESSONS[4] = {
     { id: "o2", text: "Je sais rédiger une réponse courte, précise et complète." }
   ],
   exercises: [
-    { type: "fill", obj: "o1", q: "Retrouve le mot qui correspond à chaque définition (la première lettre est donnée).",
-      text: "<ol style='margin-left:18px'><li>Agent biologique responsable d'une maladie (a… p…) : [[agent pathogène|un agent pathogène|pathogène]]</li><li>Être vivant qui prélève un pathogène sur un hôte et le transmet à un autre (v… b…) : [[vecteur biologique|un vecteur biologique|vecteur]]</li><li>Espèce dans laquelle un pathogène se maintient et se multiplie (r…) : [[réservoir|un réservoir|le réservoir]]</li><li>Individu infecté qui ne présente pas de symptômes (p… s…) : [[porteur sain|un porteur sain]]</li></ol>",
-      why: "Le mot doit être exact. Pour la définition, tu n'as pas besoin de la réciter mot pour mot : vérifie surtout qu'elle contient les éléments essentiels (pour le vecteur : un être vivant, qui prélève, qui transmet)." },
-    { type: "fill", obj: "o1", q: "Même exercice, avec d'autres mots.",
-      text: "<ol style='margin-left:18px'><li>Association durable entre deux êtres vivants dont chacun tire bénéfice (s…) : [[symbiose|une symbiose|la symbiose]]</li><li>Se dit d'un animal élevé sans aucun micro-organisme (a…) : [[axénique]]</li><li>Se dit d'une maladie présente durablement dans une région (e…) : [[endémique]]</li><li>Ensemble des mesures destinées à prévenir une maladie (p…) : [[prophylaxie|la prophylaxie]]</li></ol>",
-      why: "Pense à vérifier l'orthographe : axénique, prophylaxie." },
-    { type: "tf", obj: "o1", statement: "Épidémie et pandémie veulent dire la même chose.", answer: false,
-      why: "Faux. Une épidémie est une forte propagation d'une maladie dans une population. On parle de pandémie quand elle s'étend à de nombreux pays ou continents." },
-    { type: "tf", obj: "o1", statement: "Le réservoir d'un agent pathogène est toujours l'être humain.", answer: false,
-      why: "Faux. Le réservoir peut être humain (VIH, paludisme) ou animal : par exemple, les oiseaux pour le virus West Nile." },
-    { type: "mcq", obj: "o1", q: "Le cycle de développement (ou cycle évolutif) d'un pathogène, c'est :",
-      options: ["l'ensemble des étapes au cours desquelles il se développe et se multiplie, parfois chez plusieurs hôtes successifs", "le trajet du pathogène dans le sang", "la durée de la maladie chez un malade", "le temps que met un médicament à agir"], answer: 0,
-      why: "Le cycle de Plasmodium, par exemple, se déroule en partie chez l'être humain et en partie chez le moustique." },
-    { type: "mcq", obj: "o1", q: "Une personne est séropositive pour le VIH. Cela signifie :",
-      options: ["qu'on détecte dans son sang des anticorps dirigés contre le VIH : elle a été infectée", "qu'elle est au stade SIDA", "qu'elle est protégée contre le VIH", "qu'elle n'a jamais rencontré le VIH"], answer: 0,
-      why: "Être séropositif ne veut pas dire être au stade SIDA. Avec un traitement, une personne séropositive peut vivre longtemps sans atteindre ce stade.",
-      mistake: "confondre « séropositif » (infecté par le VIH) et « malade du SIDA » (stade avancé de l'infection)." },
+    { type: "fill", obj: "o1", hint: true, q: "Écris le mot qui correspond à chaque définition. Si tu bloques, demande un indice.",
+      text: "<ol style='margin-left:18px'><li>Agent biologique responsable d'une maladie : [[agent pathogène|un agent pathogène|pathogène]]</li><li>Être vivant qui prélève un pathogène sur un hôte et le transmet à un autre : [[vecteur biologique|un vecteur biologique|vecteur]]</li><li>Espèce dans laquelle un pathogène se maintient et se multiplie : [[réservoir|un réservoir|le réservoir]]</li><li>Individu infecté qui ne présente pas de symptômes : [[porteur sain|un porteur sain]]</li><li>Association durable entre deux êtres vivants dont chacun tire bénéfice : [[symbiose|une symbiose|la symbiose]]</li><li>Se dit d'un animal élevé sans aucun micro-organisme : [[axénique]]</li><li>Se dit d'une maladie présente durablement dans une région : [[endémique]]</li><li>Ensemble des mesures destinées à prévenir une maladie : [[prophylaxie|la prophylaxie]]</li></ol>",
+      why: "Le mot doit être exact : vérifie l'orthographe (axénique, prophylaxie). Pour la définition, tu n'as pas besoin de la réciter mot pour mot : vérifie surtout qu'elle contient les éléments essentiels (pour le vecteur : un être vivant, qui prélève, qui transmet)." },
+    { type: "quiz", obj: "o1", q: "Pour chaque question, choisis la bonne réponse.",
+      questions: [
+        { q: "Une pandémie, c'est :",
+          options: ["une épidémie qui s'étend à de nombreux pays ou continents", "une maladie présente durablement dans une région", "une maladie transmise par un vecteur biologique", "une maladie qui ne touche que les animaux"], answer: 0,
+          why: "Une épidémie est une forte propagation d'une maladie dans une population ; on parle de pandémie quand elle s'étend à de nombreux pays ou continents. Une maladie présente durablement dans une région est endémique." },
+        { q: "Le réservoir d'un agent pathogène est :",
+          options: ["l'être humain ou un animal, selon les maladies", "toujours l'être humain", "toujours un animal", "toujours le vecteur"], answer: 0,
+          why: "Le réservoir peut être humain (VIH, paludisme) ou animal : par exemple, les oiseaux pour le virus West Nile." },
+        { q: "Le cycle de développement (ou cycle évolutif) d'un pathogène, c'est :",
+          options: ["l'ensemble des étapes au cours desquelles il se développe et se multiplie, parfois chez plusieurs hôtes successifs", "le trajet du pathogène dans le sang", "la durée de la maladie chez un malade", "le temps que met un médicament à agir"], answer: 0,
+          why: "Le cycle de Plasmodium, par exemple, se déroule en partie chez l'être humain et en partie chez le moustique." },
+        { q: "Une personne est séropositive pour le VIH. Cela signifie :",
+          options: ["qu'on détecte dans son sang des anticorps dirigés contre le VIH : elle a été infectée", "qu'elle est au stade SIDA", "qu'elle est protégée contre le VIH", "qu'elle n'a jamais rencontré le VIH"], answer: 0,
+          why: "Être séropositif ne veut pas dire être au stade SIDA. Avec un traitement, une personne séropositive peut vivre longtemps sans atteindre ce stade." }
+      ] },
     { type: "write", obj: "o2", q: "Un ami pense que tous les microbes de notre corps sont des ennemis à éliminer. En quelques lignes, explique-lui ce qu'est le microbiote et pourquoi on parle de symbiose.",
       model: "Le microbiote est l'ensemble des micro-organismes (surtout des bactéries, mais aussi des champignons) qui vivent sur et dans notre corps : peau, bouche, intestin, voies respiratoires et génitales. La plupart ne sont pas dangereux. Ils trouvent chez nous un milieu de vie et de la nourriture, et nous en tirons des bénéfices : ils participent à la nutrition (fermentation des fibres, stockage des graisses), au bon fonctionnement du système immunitaire et à la protection contre des pathogènes. Chacun tire bénéfice de l'association : c'est une symbiose.",
       criteria: ["J'ai défini le microbiote : l'ensemble des micro-organismes (surtout des bactéries) qui vivent sur et dans le corps.",
@@ -859,7 +864,7 @@ LESSONS[5] = {
     return n + "-" + h.toString(36);
   }
   const fmt = x => (Math.round(x * 10) / 10).toString();
-  const TYPE_LABEL = { mcq: "QCM", tf: "Vrai ou faux", fill: "Compléter", order: "Remettre dans l'ordre", sort: "Trier", match: "Associer", write: "Rédiger et s'auto-corriger" };
+  const TYPE_LABEL = { mcq: "QCM", quiz: "QCM",tf: "Vrai ou faux", fill: "Compléter", order: "Remettre dans l'ordre", sort: "Trier", match: "Associer", write: "Rédiger et s'auto-corriger" };
 
   /* ---------- exercise renderers: each returns { getResp, setResp, grade, show, lock } ---------- */
   const R = {};
@@ -912,13 +917,32 @@ LESSONS[5] = {
       const [alts, decoys] = inner.split("||");
       answers.push(alts.split("|"));
       const i = answers.length - 1;
-      if (decoys == null) return '<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-i="' + i + '">';
+      const hint = ex.hint ? '<span class="hint" hidden>(' + answers[i][0].split(" ").map(w => w[0] + "…").join(" ") + ')</span>' : "";
+      if (decoys == null) return '<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" data-i="' + i + '">' + hint;
       const opts = [answers[i][0], ...decoys.split(";")].sort((x, y) => x.localeCompare(y));
       return '<select data-i="' + i + '"><option value="">…</option>' + opts.map(o => '<option>' + o + '</option>').join("") + '</select>';
     });
     body.appendChild(box);
     const inputs = [...box.querySelectorAll("input, select")];
+    /* indice (première lettre) : à la demande, ou après une première vérification avec des erreurs */
+    let hinted = false, hintBtn = null;
+    const hints = [...box.querySelectorAll(".hint")];
+    function showHints(which) { hinted = true; hints.forEach((h, k) => { if (!which || which[k]) h.hidden = false; }); if (hintBtn) hintBtn.style.display = "none"; }
+    if (ex.hint) {
+      hintBtn = el("button", { class: "reset-btn", type: "button", style: "margin-top:8px" }, "💡 Indice : voir la première lettre");
+      hintBtn.addEventListener("click", () => showHints());
+      body.appendChild(hintBtn);
+      inputs.forEach(inp => inp.addEventListener("input", () => inp.classList.remove("wrong")));
+    }
     return {
+      precheck: r => {
+        if (!ex.hint || hinted) return null;
+        const wrong = r.map((v, i) => !matchWord(v, answers[i]));
+        if (!wrong.includes(true)) return null;
+        showHints(wrong);
+        inputs.forEach((inp, i) => { if (wrong[i]) inp.classList.add("wrong"); else { inp.classList.add("correct"); inp.disabled = true; } });
+        return "Certains mots ne sont pas justes. Un indice (la première lettre) est affiché à côté : corrige, puis vérifie à nouveau.";
+      },
       getResp: () => { const v = inputs.map(i => i.value.trim()); return v.some(x => !x) ? null : v; },
       setResp: r => inputs.forEach((inp, i) => inp.value = r[i] || ""),
       grade: r => {
@@ -930,8 +954,36 @@ LESSONS[5] = {
         inp.classList.add(ok ? "correct" : "wrong");
         if (!ok || g.res[i] === 1) inp.insertAdjacentHTML("afterend", '<span class="fix">→ ' + answers[i][0] + "</span>");
       }),
-      lock: () => inputs.forEach(i => i.disabled = true),
+      lock: () => { inputs.forEach(i => i.disabled = true); if (hintBtn) hintBtn.style.display = "none"; },
       note: g => g.res.includes(1) ? "Accepté, mais vérifie l'orthographe." : ""
+    };
+  };
+
+  /* plusieurs QCM courts regroupés en un seul exercice */
+  R.quiz = function (ex, body, key) {
+    const items = ex.questions.map((q, qi) => {
+      const wrap = el("div", { class: "quiz-q" });
+      wrap.appendChild(el("div", { class: "quiz-t" }, String.fromCharCode(97 + qi) + ". " + q.q));
+      const labels = [];
+      shuffledIdx(q.options.length).forEach(i => {
+        const lab = el("label", { class: "option" });
+        const inp = el("input", { type: "radio", name: key + "q" + qi, value: i });
+        lab.appendChild(inp); lab.appendChild(el("span", null, q.options[i]));
+        wrap.appendChild(lab); labels[i] = { lab, inp };
+      });
+      body.appendChild(wrap);
+      return { q, wrap, labels };
+    });
+    return {
+      getResp: () => { const r = items.map(it => it.labels.findIndex(x => x && x.inp.checked)); return r.includes(-1) ? null : r; },
+      setResp: r => r.forEach((c, k) => { if (items[k].labels[c]) items[k].labels[c].inp.checked = true; }),
+      grade: r => { const ok = r.map((c, k) => c === items[k].q.answer); return { pts: ok.filter(Boolean).length / ok.length, ok }; },
+      show: (r, g) => items.forEach((it, k) => {
+        it.labels[it.q.answer].lab.classList.add("correct");
+        if (!g.ok[k] && it.labels[r[k]]) it.labels[r[k]].lab.classList.add("wrong");
+        it.wrap.appendChild(el("div", { class: "quiz-why" }, (g.ok[k] ? "✓ " : "✗ ") + it.q.why));
+      }),
+      lock: () => items.forEach(it => it.labels.forEach(x => x.inp.disabled = true))
     };
   };
 
@@ -1271,6 +1323,8 @@ LESSONS[5] = {
       btn.addEventListener("click", () => {
         const resp = api.getResp();
         if (resp == null) { fb.className = "feedback show warn"; fb.innerHTML = api.warn || "Réponds à toutes les parties d'abord."; return; }
+        const pre = api.precheck && api.precheck(resp);
+        if (pre) { fb.className = "feedback show warn"; fb.innerHTML = pre; return; }
         const g = reveal(resp);
         state.ex[skey] = { resp, pts: g.pts }; save(); updateScores();
       });
